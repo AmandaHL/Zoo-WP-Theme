@@ -1,0 +1,84 @@
+/*--Specs--*/
+.spec-section {
+	margin: 1em auto;
+	padding: 0;
+}
+
+.spec-grid {
+	border-bottom: solid 6px rgb(223,223,223);
+	padding-bottom: 1em;
+	margin-bottom: 0;
+}
+.spec-grid > div {
+	display: block;
+	padding: 0;
+	margin:  0 1%;
+	vertical-align: top;
+	width: 100%;
+	height: 100%;
+}
+.spec-header {
+	margin: 0 0 .5em 0;
+	padding: 0;
+}
+.spec-subhead {
+	background: rgb(0,110,183);
+	color: rgb(255,255,255);
+	font-size: 110%;
+	line-height: 110%;
+	margin: 0;
+	padding: .3em .1em .3em .1em !important;
+	text-align: center;
+	text-transform: uppercase;
+	
+}
+
+.spec-grid li {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	width: 100%;
+}
+.spec-grid a {
+	border: solid thin rgb(0,110,183);
+	color: rgb(0,110,183);
+	display: block;
+	font-size: 90%;
+	line-height: 30px;
+	margin: .5em 0 0 0;
+	text-decoration: none;
+	text-align: center; 
+	text-transform: uppercase;
+	height: 30px;
+}
+.spec-grid a:hover {
+	background: rgb(223,223,223);
+}
+.spec-grid h4 {
+	text-align: center;
+} 
+@media only screen and (min-width: 30em){
+.spec-grid > div {
+	display: inline-block;
+	margin: 1em 1%;
+	width: 46.5%;
+	}
+}@media only screen and (min-width:50em){
+	.spec-subhead {
+	font-size: 100%;
+}
+	
+}@media only screen and (min-width:60em){
+	.spec-section {
+	margin: 0 auto 2em auto;
+	padding: 0;
+	}
+
+	.spec-grid {
+	padding-bottom: 2em;
+	}
+	.spec-grid > div {
+	width: 30.5%;
+	}
+	
+}

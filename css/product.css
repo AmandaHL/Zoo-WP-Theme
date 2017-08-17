@@ -1,0 +1,300 @@
+/*--Single Products--*/
+.prod-title {
+	border-bottom: solid thin rgb(223,223,223);
+	color: rgb(0,0,0);
+	font-weight: 300;
+	margin: 1.5em auto 0 auto;
+	padding-bottom: .3em;
+	text-align: center;
+	width: 90%;
+}
+
+.prod-subtitle {
+	color: rgb(89,166,227);
+	font-weight: 400;
+	margin: .3em 0 0 0;
+	text-align: center;
+}
+.product {/*--has sidebar--*/	
+	display: block;
+	margin-top: 1em;
+	width: 90%;	
+}
+
+.product > div {
+	display: block;
+}
+
+.prod-sidebar {
+	font-size: 90%;
+	margin: 0 auto;
+	position: relative;
+	clear: both;
+	width: 90%;
+}
+
+.prod-sidebar p {
+	margin-bottom: 2em;
+}
+.blue-header {
+	color: rgb(89,166,227);
+	font-weight: 400;
+	margin: .3em 0;
+}
+
+.prod-features li{
+	line-height: 160%;
+	margin: .4em 0 .4em 1.5em;
+}
+/*.prod-features li:before {content: "*  ";}*/
+.prod-btn {
+	background: rgb(0,110,183);
+	color: #fff;
+	display: block;
+	font-size: 90%;
+	font-weight: 600;
+	margin: 1.5em auto 0 auto;
+	padding: .2em .8em .3em .8em ;
+	text-align: center;
+	text-decoration: none;
+	width: 60%;
+}
+
+.prod-btn:hover {
+	
+	color: #fff;
+	}
+.prod-img-box {
+	float: left;
+	clear: both;	
+	padding-right: 0;
+	padding-left: 10%;
+	width: 90%;	
+}
+
+
+/*Product Carousel*/
+#prod-1,
+#prod-2 {
+	display: inline-block;
+	vertical-align: middle;
+}
+#prod-1 {
+	width: 58%;	
+}
+#prod-1 img {
+	margin: 1.5em auto;
+	width: 80%;
+	max-width: 280px;
+}
+#prod-2 {
+float: left;
+clear:  both;
+width: 40%;
+min-height: 250px;
+text-align: center;
+}
+
+#prod-1 > div {
+display: block;
+width: 100%;
+
+}
+.prod-thumb {	
+	display: block;	
+	margin: .5em auto;	
+	text-align: center;	
+}
+#prod-2 div img {
+	border: solid thin rgb(223,223,223);
+	display: block;	
+	width: 100%;
+	height: auto;
+	margin: 0;
+	padding: 1em;
+}
+/*Inline links*/
+.product-links {
+	border-top: solid thin rgb(223,223,223);
+	width: 100%;
+	margin: 0 auto;
+	padding-top: 1em;
+	}
+.product-links li {
+	
+	display: block;
+	font-weight: 300;
+	padding: 0 .5em;
+	}
+.product-links li span {
+	display: none;
+}	
+.product-links a {
+	text-decoration: none;
+}
+.product-info {
+	border-top: solid thin rgb(223,223,223);
+	font-size: 90%;
+	}
+.product-info > div {
+
+	margin: 0 auto 2em auto;
+	width: 90%;
+	}
+.product-info li{
+	line-height: 150%;
+	margin: .4em 0 .4em 1.5em;
+}
+/*Related Products*/
+.rel-boxes > div {
+	border: solid thin rgb(223,223,223);
+	display: block;
+	padding: 1em 1%;
+	margin: 1em auto;
+	vertical-align: top;
+	width: 80%
+}
+.rel-title,
+.rel-sub-title {
+	color: rgb(89,166,227);
+	text-align: center;
+}
+.rel-sub-title {
+	font-size: 90%;
+	font-weight: 300;
+	}
+.rel-thb {
+	margin: .3em auto;
+	width: 60%;
+	text-align: center;
+	}
+.rel-thb img {
+	
+	width: 80%;
+}
+.rel-btn {
+	background: rgb(0,110,183);
+	color: #fff;
+	display: block;
+	font-size: 90%;
+	margin: 0 auto;
+	padding: .2em .8em .3em .8em ;
+	text-align: center;
+	text-decoration: none;
+	width: 80%;	
+}
+.rel-btn:hover {
+	color: #fff;
+	background: rgb(89,166,227);
+}
+/*Contact Section*/
+.prod-questions p {
+	text-align: center;
+}
+
+.sup-img {
+	margin: 0 auto;
+	width: 40%;
+	text-align: center;
+}
+.sup-img img {
+	width: 100%
+}
+.inline-nested {
+	margin: 0 auto;
+	width: 80%;
+	text-align: center;
+}
+
+.inline-nested > div {
+	display: block;
+	width: 100%;
+}
+@media only screen and (min-width: 28em){
+#prod-2 {
+min-height: 320px;
+}
+}@media only screen and (min-width: 40em){
+
+.prod-title {
+	width: 84%;
+}
+.product {
+	display: table;
+	margin-top: 2em;
+	width: 90%;	
+}
+.product > div {
+	display: table-cell;
+	vertical-align: top;
+}
+.prod-sidebar {
+	width: 35%;
+}
+.prod-img-box {
+	padding-right: 5%;
+	padding-left: 15%;
+	width: 65%;
+}
+.prod-btn {	
+	margin: 1.5em 0 0 0;
+	text-align: left;
+}
+.product-links {
+	border: none;
+	text-align: center;
+	width: 80%
+	}
+.product-links li {
+	
+	display: inline-block;
+	font-size: 90%;
+	font-weight: 300;
+	padding: 0;
+	}
+.product-links li span {
+	display: inline-block;
+	padding: 0 .3em 0 .5em;
+}
+.product-info > div {
+
+	margin: 0 auto 2em auto;
+	width: 68%;
+	}
+.rel-boxes > div {
+	border: solid thin rgb(223,223,223);
+	display: inline-block;
+	padding: 1em 1%;
+	margin: 1em .6%;
+	vertical-align: top;
+	width: 28%
+}
+.prod-questions .rel-btn {
+	width: 40%;
+}
+.inline-nested {	
+	width: 60%;
+}
+.inline-nested > div {
+	display: inline-block;
+	width: 48%;
+}
+
+}@media only screen and (min-width: 60em){
+.product {
+	width: 84%;	
+}
+.inline-nested {	
+	width: 40%;
+}
+
+}@media only screen and (min-width: 65em){
+.prod-title {
+	width: 40%;
+}
+}@media only screen and (min-width: 75em){
+#prod-2 {
+min-height: 360px;
+}
+}
+

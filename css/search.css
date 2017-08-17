@@ -1,0 +1,196 @@
+/*Styles for the Search Form and Search Page*/
+.searchbox{
+	border: solid thin rgb(179,182,185);
+	float:right;
+	overflow:hidden;
+ 	position:relative;
+ 	min-width:35px;
+ 	width:0;
+ 	height:35px;
+ 	-webkit-transition: width 0.3s;
+ 	-moz-transition: width 0.3s;
+ 	-ms-transition: width 0.3s;
+ 	-o-transition: width 0.3s;
+	transition: width 0.3s;
+}
+.searchbox:hover {
+	border: solid thin rgb(0,110,183);
+}
+.searchbox-open{
+	width:260px;
+}
+.screen-reader-text {
+	display: none;
+}
+.searchbox-input{
+	border: none;
+	background:#fff;
+	color: #777;
+	font-size:12px;
+	/*font-style: italic;*/
+ 	outline:0;
+	margin:0;
+ 	padding-left: 1em;
+ 	position:absolute;
+ 	top:0;
+ 	right:0;
+ 	width:95%;
+ 	height:35px;
+}
+/*.searchbox-input::-webkit-input-placeholder {
+ 	color: #333;
+}
+.searchbox-input:-moz-placeholder {
+ 	color: #333;
+}
+.searchbox-input::-moz-placeholder {
+ 	color: #333;
+}
+.searchbox-input:-ms-input-placeholder {
+ 	color: #333;
+}*/
+.searchbox-icon,
+.searchbox-submit{
+	background: rgb(179,182,185);
+	/*color:#dcddd8;*/
+	cursor:pointer;
+ 	display:block;
+	font-family:'icomoon';
+ 	font-size:13px;
+	line-height:35px;
+ 	margin:0;
+	outline:0;
+	padding:0;
+	position:absolute;
+ 	top: 0;
+ 	right:0;
+ 	text-align:center; 
+	width:35px;
+ 	height:35px;
+}
+.searchbox-icon:hover,
+.searchbox-submit:hover{
+	background: rgb(0,110,183);
+	color: #fff;
+}
+.searchbox-icon:before,
+.searchbox-submit:before {
+	content: "\e000";
+}
+li.mob-search {
+	display: block;
+	float: none;
+	margin: 0 auto;
+	position: relative;
+	width: 96%;
+}
+li.mob-search .search-form {
+	clear: both;
+	margin: .5em 0;
+	position: relative;
+	top: 0;
+	right: 0;
+	width: 94%;
+	z-index: 10;
+}
+.searchpage .search-form {
+	clear: both;
+	margin: 1em auto;
+	position: relative;
+	top: .2em;
+	right: .2em;
+	width: 100%;
+	z-index: 10;
+}
+.mob-search .searchbox,
+.searchpage .searchbox{
+	border: solid thin rgb(0,110,183);
+ 	float:none;
+ 	overflow:hidden;
+	position:relative;
+ 	min-width:50px;
+ 	width:100%;
+ 	height:30px;
+
+ 	-webkit-transition: width 0.3s;
+ 	-moz-transition: width 0.3s;
+ 	-ms-transition: width 0.3s;
+ 	-o-transition: width 0.3s;
+	transition: width 0.3s;
+}
+.mob-search .searchbox-open,
+.searchpage .searchbox-open{
+	width:100%;
+}
+.mob-search .searchbox-icon,
+.mob-search .searchbox-submit,
+.searchpage .searchbox-icon,
+.searchpage .searchbox-submit{
+	border: solid thin rgb(0,110,183);
+	background: rgb(0,110,183);
+	color: #fff;
+ 	cursor:none;
+ 	line-height: 30px;
+	width:50px;
+	height: 30px;
+	
+}
+.mob-search .searchbox-icon:before,
+.mob-search .searchbox-submit:before,
+.searchpage .searchbox-icon:before,
+.searchpage .searchbox-submit:before {
+	content: "\e000";
+}
+.searchpage {
+	clear: both;
+	font-size: 85%;
+	line-height: 150%;
+	margin: 2em auto;
+	width: 90%;
+}
+.searchpage .entry-meta,
+.searchpage .entry-utility {
+	color: #727272;
+	font-size: 80%;
+	margin: .5em 0 0 0;
+}
+.searchpage h3 {
+	/*border-bottom: none;*/
+}
+.searchpage h3 span {
+	color: #727272;
+}
+.searchpage .not-found h3 {
+	color: #727272;
+}
+.searchpage h4 {
+	line-height: 60%;
+	margin: 2em 0 0 0;
+	padding: 0;
+}
+.searchpage h4 a {
+	color: inherit;
+	text-decoration: none;
+}
+.searchpage h4 a:hover {
+	color: #666;
+}
+.searchpage p {
+	margin: .5em 0;
+	padding: 0;
+}
+@media only screen and (min-width:50em){
+.searchbox{	
+ 	min-width:25px;
+ 	height:25px;
+}
+.searchbox-input{
+ 	height:25px;
+}
+.searchbox-icon,
+.searchbox-submit{	
+	line-height:25px;
+	width:25px;
+ 	height:25px;
+}
+}

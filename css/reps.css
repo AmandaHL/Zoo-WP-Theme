@@ -1,0 +1,85 @@
+/*--Reps--*/
+
+.post-password-form {
+
+margin: 2em auto 0 auto;
+padding: 0;
+width: 90%;
+min-height: 450px;
+}
+.rep-section {
+margin: 2em auto 0 auto;
+padding: 0;
+}
+.rep-section:last-child {
+	margin-bottom: 2em;
+}
+.rep-grid {
+	border-bottom: solid 6px rgb(223,223,223)/*(89,166,227)*/;
+	padding-bottom: 2em;
+	margin-bottom: 0;
+}
+.rep-grid > div {
+	
+	display: block;
+	padding: 0;
+	margin:  0 1%;
+	vertical-align: top;
+	width: 100%;
+	height: 100%;
+}
+.rep-header {
+	margin: 0 0 .5em 0;
+	padding: 0;
+}
+.rep-subhead {
+	background: rgb(0,110,183);
+	color: rgb(255,255,255);
+	font-size: 110%;
+	margin: 0;
+	padding: .3em 1em;
+}
+.rep-grid > div div {
+	width: 90%;
+	margin: 1em auto;
+	}
+.rep-grid > div > p {
+	background: rgb(104,104,104);
+	color: rgb(255,255,255);
+	text-align: center;
+	padding: .1em 0;
+}
+.rep-grid a {
+	border: solid thin rgb(0,110,183);
+	color: rgb(0,110,183);
+	display: block;
+	font-size: 80%;
+	margin: .5em 0;
+	text-decoration: none;
+	text-align: center; 
+	text-transform: uppercase;
+}
+.rep-grid a:hover {
+	background: rgb(223,223,223);
+}
+.rep-grid h4 {
+	text-align: center;
+} 
+@media only screen and (min-width: 20em){
+.rep-grid > div {
+	display: inline-block;
+	margin: 1em 1%;
+	width: 46.5%;
+	}
+
+}@media only screen and (min-width:50em){
+	.rep-grid > div {
+	margin: 1em 1%;
+	width: 30.5%;
+	}
+	.rep-subhead {
+	font-size: 110%;
+}
+.rep-grid > div > p {
+	font-size: 80%;
+}
