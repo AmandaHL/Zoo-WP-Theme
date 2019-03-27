@@ -253,4 +253,85 @@ $output .= apply_filters(
 
 }
 }
+
+//Add custom post types
+add_action('init', 'zfpt_products_register');
+ function zfpt_products_register() {
+ $labels = array(
+		'name' => __('Products'),
+		'singular_name' => __('Product'),
+		'add_new' => __('Add New', 'Product'),
+		'add_new_item' => __('Add New Product'),
+		'edit_item' => __('Edit Product'),
+		'new_item' => __('New Product'),
+		'view_item' => __('View Product'),
+		'search_items' => __('Search Products'),
+		'not_found' =>  __('Nothing found'),
+		'not_found_in_trash' => __('Nothing found in Trash'),
+		'parent_item_colon' => ''
+	);
+ $args = array(
+		'labels' => $labels,
+		'public' => true,
+		'publicly_queryable' => true,
+		'show_ui' => true,
+		'query_var' => true,
+		'taxonomies' => array('post_tag','category'),
+		'rewrite' => true,
+		'capability_type' => 'post',
+		'hierarchical' => false,
+		'menu_position' => null,
+		'has_archive' => true,	
+		'supports' => array('title', 'editor' , 'comments', 'excerpt',  'revisions', 'author', 'page-attributes','thumbnail')
+		 ); 
+ register_post_type( 'product' , $args );
+}
+function product_taxonomy() {  
+    register_taxonomy(  
+        'product-cats',  //The name of the taxonomy. Name should be in slug form (must not contain capital letters or spaces). 
+        'product',        //post type name
+        array(  
+            'hierarchical' => true,  
+            'label' => 'Product Categories',  //Display name
+            'query_var' => true,
+            'rewrite' => array(
+                'slug' => 'products', // This controls the base slug that will display before each term
+                'with_front' => true // Don't display the category base before 
+            )
+        )  
+    );  
+}  
+add_action( 'init', 'product_taxonomy');
+add_action('init', 'zfpt_white_papers_register');
+ function zfpt_white_papers_register() {
+ $labels = array(
+		'name' => __('White Papers'),
+		'singular_name' => __('White Paper'),
+		'add_new' => __('Add New', 'White Paper'),
+		'add_new_item' => __('Add New White Paper'),
+		'edit_item' => __('Edit White Paper'),
+		'new_item' => __('New White Paper'),
+		'view_item' => __('View White Paper'),
+		'search_items' => __('Search White Paper'),
+		'not_found' =>  __('Nothing found'),
+		'not_found_in_trash' => __('Nothing found in Trash'),
+		'parent_item_colon' => ''
+	);
+ $args = array(
+		'labels' => $labels,
+		'public' => true,
+		'publicly_queryable' => true,
+		'show_ui' => true,
+		'query_var' => true,
+		'taxonomies' => array('post_tag','category'),
+		'rewrite' => true,
+		'capability_type' => 'post',
+		'hierarchical' => true,
+		'menu_position' => null,
+		'has_archive' => true,
+		
+		'supports' => array('title', 'editor' , 'comments', 'excerpt',  'revisions', 'author', 'post-formats','thumbnail')
+		 ); 
+ register_post_type( 'white-paper' , $args );
+}
 ?>
