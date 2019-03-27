@@ -14,7 +14,8 @@ get_header();?>
 $post_id = get_the_ID();
 $landing_title = get_post_meta($post_id, 'zf_landing_title', true);
 if( !empty( $landing_title) ) {   
-echo '<h1>'. $landing_title 
+echo '<h1>'
+. $landing_title 
 .'</h1>';
 } else { 
 echo '<h1>'

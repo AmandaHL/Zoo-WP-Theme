@@ -18,20 +18,12 @@
 <link rel="shortcut icon" href="<?php echo get_stylesheet_directory_uri(); ?>/favicon.ico" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lateef%7COpen+Sans:300,400,600,700" />
 <link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>" type="text/css" />
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-72798845-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'UA-72798845-1');
-</script>
-<script type="text/javascript" src="https://secure.leadforensics.com/js/85652.js" ></script> 
 
 
 <?php wp_head();?>
 </head>
 <body id="top-anchor">
-<noscript><img alt="" src="https://secure.leadforensics.com/85652.png" style="display:none;" /></noscript>​
+
 <header>
 <div class="top">
 <div class="logobox">
@@ -63,8 +55,8 @@
 <?php get_search_form(); ?>
 
 <div class="phone-numbers">
-<p class="large">855-ZOO-FANS</p>
-<p class="small">855-966-3267</p>
+<p class="large">###-###-####</p>
+<p class="small">###-###-####</p>
 </div><!--.phone-numbers-->
 </div><!--.right-box-->
 
