@@ -1,8 +1,9 @@
 <?php
+	
 /**
  * Include and setup custom metaboxes and fields. (make sure you copy this file to outside the CMB2 directory)
  *
- * Be sure to replace all instances of 'yourprefix_' with your project's prefix.
+ * Be sure to replace all instances of 'bg_' with your project's prefix.
  * http://nacin.com/2010/05/11/in-wordpress-prefix-everything/
  *
  * @category YourThemeOrPlugin
@@ -28,462 +29,266 @@ if ( file_exists( dirname( __FILE__ ) . '/cmb2/init.php' ) ) {
  *
  * @return bool             True if metabox should show
  */
-function yourprefix_show_if_front_page( $cmb ) {
+function bg_show_if_front_page( $cmb ) {
 	// Don't show this metabox if it's not the front page template
 	if ( $cmb->object_id !== get_option( 'page_on_front' ) ) {
 		return false;
 	}
 	return true;
 }
+//Secondary Nav Image Text
+add_action( 'cmb2_init', 'nav_text_register_metabox' );
+function nav_text_register_metabox() {
+$prefix = 'zf_';
 
-/**
- * Conditionally displays a field when used as a callback in the 'show_on_cb' field parameter
- *
- * @param  CMB2_Field object $field Field object
- *
- * @return bool                     True if metabox should show
- */
-function yourprefix_hide_if_no_cats( $field ) {
-	// Don't show this field if not in the cats category
-	if ( ! has_tag( 'cats', $field->object_id ) ) {
-		return false;
-	}
-	return true;
+$zf_nav_text = new_cmb2_box( array(
+	'id'            => $prefix . 'nav_text',
+	'title'         => __( 'Secondary Nav Image Description', 'cmb2' ),
+	'object_types'  => array( 'page','product' ), // Post type
+	'closed'     => true, // true to keep the metabox closed by default
+) );
+
+$zf_nav_text->add_field( array(
+	'name' => esc_html__( 'Add Description', 'cmb2' ),
+	'desc' => esc_html__( 'Only used on Product Posts and Industry Subpages.', 'cmb2' ),
+	'id'   => $prefix . 'nav_desc',
+	'type' => 'text'
+) );
+}
+//Default Page Banner
+add_action( 'cmb2_init', 'page_banner_register_metabox' );
+function page_banner_register_metabox() {
+$prefix = 'zf_';
+
+$zf_banner_box = new_cmb2_box( array(
+	'id'            => $prefix . 'banner_box',
+	'title'         => __( 'Page Banner', 'cmb2' ),
+	'object_types'  => array( 'page', ), // Post type
+	'closed'     => true, // true to keep the metabox closed by default
+) );
+$zf_banner_box->add_field( array(
+	'name' => esc_html__( 'Banner Image', 'cmb2' ),
+	'desc' => esc_html__( 'Upload the banner image.', 'cmb2' ),
+	'id'   => $prefix . 'banner_image',
+	'type' => 'file'
+) );
+$zf_banner_box->add_field( array(
+	'name' => esc_html__( 'Large Call-to-Action Text', 'cmb2' ),
+	'desc' => esc_html__( 'Customize call to action (used on the Landing page and Archive templates).', 'cmb2' ),
+	'id'   => $prefix . 'landing_title',
+	'type' => 'textarea_small'
+) );
+$zf_banner_box->add_field( array(
+	'name' => esc_html__( 'Banner Text', 'cmb2' ),
+	'desc' => esc_html__( 'Add paragraph text (Industry Sub-Pages and Category Landing).', 'cmb2' ),
+	'id'   => $prefix . 'lg_banner_text',
+	'type' => 'textarea_small'
+) );
 }
 
-/**
- * Manually render a field.
- *
- * @param  array      $field_args Array of field arguments.
- * @param  CMB2_Field $field      The field object
- */
-function yourprefix_render_row_cb( $field_args, $field ) {
-	$classes     = $field->row_classes();
-	$id          = $field->args( 'id' );
-	$label       = $field->args( 'name' );
-	$name        = $field->args( '_name' );
-	$value       = $field->escaped_value();
-	$description = $field->args( 'description' );
-	?>
-	<div class="custom-field-row <?php echo $classes; ?>">
-		<p><label for="<?php echo $id; ?>"><?php echo $label; ?></label></p>
-		<p><input id="<?php echo $id; ?>" type="text" name="<?php echo $name; ?>" value="<?php echo $value; ?>"/></p>
-		<p class="description"><?php echo $description; ?></p>
-	</div>
-	<?php
+//Home Page About Section
+add_action( 'cmb2_init', 'home_about_register_metabox' );
+function home_about_register_metabox() {
+$prefix = 'zf_';
+
+$zf_aboutbox = new_cmb2_box( array(
+	'id'            => $prefix . 'about_box',
+	'title'         => __( 'About Section', 'cmb2' ),
+	'object_types'  => array( 'page', ), // Post type,
+	'show_on_cb' => 'bg_show_if_front_page',
+	'closed'     => true, // true to keep the metabox closed by default
+) );
+$zf_aboutbox->add_field( array(
+	'name' => esc_html__( 'Section Title', 'cmb2' ),
+	'desc' => esc_html__( 'Enter the section title (optional).', 'cmb2' ),
+	'id'   => $prefix . 'about_box_title',
+	'type' => 'text'
+) );
+$zf_aboutbox->add_field( array(
+	'name' => esc_html__( 'Section Content', 'cmb2' ),
+	'desc' => esc_html__( 'Add content using the editor below.', 'cmb2' ),
+	'id'   => $prefix . 'about_box_content',
+	'type' => 'wysiwyg'
+) );
 }
+//Page Optional Section
+add_action( 'cmb2_init', 'page_optional_register_metabox' );
+function page_optional_register_metabox() {
+$prefix = 'zf_';
 
-/**
- * Manually render a field column display.
- *
- * @param  array      $field_args Array of field arguments.
- * @param  CMB2_Field $field      The field object
- */
-function yourprefix_display_text_small_column( $field_args, $field ) {
-	?>
-	<div class="custom-column-display <?php echo $field->row_classes(); ?>">
-		<p><?php echo $field->escaped_value(); ?></p>
-		<p class="description"><?php echo $field->args( 'description' ); ?></p>
-	</div>
-	<?php
+$zf_optional_box = new_cmb2_box( array(
+	'id'            => $prefix . 'optional_box',
+	'title'         => __( 'Optional Section', 'cmb2' ),
+	'object_types'  => array( 'page', ), // Post type
+	'closed'     => true, // true to keep the metabox closed by default
+) );
+$zf_optional_box->add_field( array(
+	'name' => esc_html__( 'Section Title', 'cmb2' ),
+	'desc' => esc_html__( 'Enter the section title (optional).', 'cmb2' ),
+	'id'   => $prefix . 'optional_box_title',
+	'type' => 'text'
+) );
+$zf_optional_box->add_field( array(
+	'name' => esc_html__( 'Section Content', 'cmb2' ),
+	'desc' => esc_html__( 'Add content using the editor below.', 'cmb2' ),
+	'id'   => $prefix . 'optional_box_content',
+	'type' => 'wysiwyg'
+) );
 }
+//Products Destratification
+add_action( 'cmb2_init', 'destrat_register_metabox' );
+function destrat_register_metabox() {
+$prefix = 'zf_';
 
-/**
- * Conditionally displays a message if the $post_id is 2
- *
- * @param  array             $field_args Array of field parameters
- * @param  CMB2_Field object $field      Field object
- */
-function yourprefix_before_row_if_2( $field_args, $field ) {
-	if ( 2 == $field->object_id ) {
-		echo '<p>Testing <b>"before_row"</b> parameter (on $post_id 2)</p>';
-	} else {
-		echo '<p>Testing <b>"before_row"</b> parameter (<b>NOT</b> on $post_id 2)</p>';
-	}
+$zf_destrat_box = new_cmb2_box( array(
+	'id'            => $prefix . 'prod_dest',
+	'title'         => __( 'Destratification Fans', 'cmb2' ),
+	'object_types'  => array( 'page', ), // Post type
+	'show_on'      => array( 'key' => 'page-template', 'value' => 'products.php' ),
+	'closed'     => true, // true to keep the metabox closed by default
+) );
+$zf_destrat_box->add_field( array(
+	'name' => esc_html__( 'Section Content', 'cmb2' ),
+	'desc' => esc_html__( 'Add content using the editor below.', 'cmb2' ),
+	'id'   => $prefix . 'destrat_description',
+	'type' => 'wysiwyg'
+) );
 }
+//Products Spot Cooling
+add_action( 'cmb2_init', 'spot_register_metabox' );
+function spot_register_metabox() {
+$prefix = 'zf_';
 
-add_action( 'cmb2_admin_init', 'yourprefix_register_demo_metabox' );
-/**
- * Hook in and add a demo metabox. Can only happen on the 'cmb2_admin_init' or 'cmb2_init' hook.
- */
-function yourprefix_register_demo_metabox() {
-	$prefix = 'yourprefix_demo_';
+$zf_spot_box = new_cmb2_box( array(
+	'id'            => $prefix . 'prod_spot',
+	'title'         => __( 'Spot Cooling', 'cmb2' ),
+	'object_types'  => array( 'page', ), // Post type
+	'show_on'      => array( 'key' => 'page-template', 'value' => 'products.php' ),
+	'closed'     => true, // true to keep the metabox closed by default
+) );
 
-	/**
-	 * Sample metabox to demonstrate each field type included
-	 */
-	$cmb_demo = new_cmb2_box( array(
-		'id'            => $prefix . 'metabox',
-		'title'         => esc_html__( 'Test Metabox', 'cmb2' ),
-		'object_types'  => array( 'page', ), // Post type
-		// 'show_on_cb' => 'yourprefix_show_if_front_page', // function should return a bool value
-		// 'context'    => 'normal',
-		// 'priority'   => 'high',
-		// 'show_names' => true, // Show field names on the left
-		// 'cmb_styles' => false, // false to disable the CMB stylesheet
-		// 'closed'     => true, // true to keep the metabox closed by default
-		// 'classes'    => 'extra-class', // Extra cmb2-wrap classes
-		// 'classes_cb' => 'yourprefix_add_some_classes', // Add classes through a callback.
-	) );
-
-	$cmb_demo->add_field( array(
-		'name'       => esc_html__( 'Test Text', 'cmb2' ),
-		'desc'       => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'         => $prefix . 'text',
-		'type'       => 'text',
-		'show_on_cb' => 'yourprefix_hide_if_no_cats', // function should return a bool value
-		// 'sanitization_cb' => 'my_custom_sanitization', // custom sanitization callback parameter
-		// 'escape_cb'       => 'my_custom_escaping',  // custom escaping callback parameter
-		// 'on_front'        => false, // Optionally designate a field to wp-admin only
-		// 'repeatable'      => true,
-		// 'column'          => true, // Display field value in the admin post-listing columns
-	) );
-
-	$cmb_demo->add_field( array(
-		'name' => esc_html__( 'Test Text Small', 'cmb2' ),
-		'desc' => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'   => $prefix . 'textsmall',
-		'type' => 'text_small',
-		// 'repeatable' => true,
-		// 'column' => array(
-		// 	'name'     => esc_html__( 'Column Title', 'cmb2' ), // Set the admin column title
-		// 	'position' => 2, // Set as the second column.
-		// );
-		// 'display_cb' => 'yourprefix_display_text_small_column', // Output the display of the column values through a callback.
-	) );
-
-	$cmb_demo->add_field( array(
-		'name' => esc_html__( 'Test Text Medium', 'cmb2' ),
-		'desc' => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'   => $prefix . 'textmedium',
-		'type' => 'text_medium',
-	) );
-
-	$cmb_demo->add_field( array(
-		'name'       => esc_html__( 'Read-only Disabled Field', 'cmb2' ),
-		'desc'       => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'         => $prefix . 'readonly',
-		'type'       => 'text_medium',
-		'default'    => esc_attr__( 'Hey there, I\'m a read-only field', 'cmb2' ),
-		'save_field' => false, // Disables the saving of this field.
-		'attributes' => array(
-			'disabled' => 'disabled',
-			'readonly' => 'readonly',
-		),
-	) );
-
-	$cmb_demo->add_field( array(
-		'name' => esc_html__( 'Custom Rendered Field', 'cmb2' ),
-		'desc' => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'   => $prefix . 'render_row_cb',
-		'type' => 'text',
-		'render_row_cb' => 'yourprefix_render_row_cb',
-	) );
-
-	$cmb_demo->add_field( array(
-		'name' => esc_html__( 'Website URL', 'cmb2' ),
-		'desc' => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'   => $prefix . 'url',
-		'type' => 'text_url',
-		// 'protocols' => array('http', 'https', 'ftp', 'ftps', 'mailto', 'news', 'irc', 'gopher', 'nntp', 'feed', 'telnet'), // Array of allowed protocols
-		// 'repeatable' => true,
-	) );
-
-	$cmb_demo->add_field( array(
-		'name' => esc_html__( 'Test Text Email', 'cmb2' ),
-		'desc' => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'   => $prefix . 'email',
-		'type' => 'text_email',
-		// 'repeatable' => true,
-	) );
-
-	$cmb_demo->add_field( array(
-		'name' => esc_html__( 'Test Time', 'cmb2' ),
-		'desc' => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'   => $prefix . 'time',
-		'type' => 'text_time',
-		// 'time_format' => 'H:i', // Set to 24hr format
-	) );
-
-	$cmb_demo->add_field( array(
-		'name' => esc_html__( 'Time zone', 'cmb2' ),
-		'desc' => esc_html__( 'Time zone', 'cmb2' ),
-		'id'   => $prefix . 'timezone',
-		'type' => 'select_timezone',
-	) );
-
-	$cmb_demo->add_field( array(
-		'name' => esc_html__( 'Test Date Picker', 'cmb2' ),
-		'desc' => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'   => $prefix . 'textdate',
-		'type' => 'text_date',
-		// 'date_format' => 'Y-m-d',
-	) );
-
-	$cmb_demo->add_field( array(
-		'name' => esc_html__( 'Test Date Picker (UNIX timestamp)', 'cmb2' ),
-		'desc' => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'   => $prefix . 'textdate_timestamp',
-		'type' => 'text_date_timestamp',
-		// 'timezone_meta_key' => $prefix . 'timezone', // Optionally make this field honor the timezone selected in the select_timezone specified above
-	) );
-
-	$cmb_demo->add_field( array(
-		'name' => esc_html__( 'Test Date/Time Picker Combo (UNIX timestamp)', 'cmb2' ),
-		'desc' => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'   => $prefix . 'datetime_timestamp',
-		'type' => 'text_datetime_timestamp',
-	) );
-
-	// This text_datetime_timestamp_timezone field type
-	// is only compatible with PHP versions 5.3 or above.
-	// Feel free to uncomment and use if your server meets the requirement
-	// $cmb_demo->add_field( array(
-	// 	'name' => esc_html__( 'Test Date/Time Picker/Time zone Combo (serialized DateTime object)', 'cmb2' ),
-	// 	'desc' => esc_html__( 'field description (optional)', 'cmb2' ),
-	// 	'id'   => $prefix . 'datetime_timestamp_timezone',
-	// 	'type' => 'text_datetime_timestamp_timezone',
-	// ) );
-
-	$cmb_demo->add_field( array(
-		'name' => esc_html__( 'Test Money', 'cmb2' ),
-		'desc' => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'   => $prefix . 'textmoney',
-		'type' => 'text_money',
-		// 'before_field' => '£', // override '$' symbol if needed
-		// 'repeatable' => true,
-	) );
-
-	$cmb_demo->add_field( array(
-		'name'    => esc_html__( 'Test Color Picker', 'cmb2' ),
-		'desc'    => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'      => $prefix . 'colorpicker',
-		'type'    => 'colorpicker',
-		'default' => '#ffffff',
-		// 'attributes' => array(
-		// 	'data-colorpicker' => json_encode( array(
-		// 		'palettes' => array( '#3dd0cc', '#ff834c', '#4fa2c0', '#0bc991', ),
-		// 	) ),
-		// ),
-	) );
-
-	$cmb_demo->add_field( array(
-		'name' => esc_html__( 'Test Text Area', 'cmb2' ),
-		'desc' => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'   => $prefix . 'textarea',
-		'type' => 'textarea',
-	) );
-
-	$cmb_demo->add_field( array(
-		'name' => esc_html__( 'Test Text Area Small', 'cmb2' ),
-		'desc' => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'   => $prefix . 'textareasmall',
-		'type' => 'textarea_small',
-	) );
-
-	$cmb_demo->add_field( array(
-		'name' => esc_html__( 'Test Text Area for Code', 'cmb2' ),
-		'desc' => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'   => $prefix . 'textarea_code',
-		'type' => 'textarea_code',
-	) );
-
-	$cmb_demo->add_field( array(
-		'name' => esc_html__( 'Test Title Weeeee', 'cmb2' ),
-		'desc' => esc_html__( 'This is a title description', 'cmb2' ),
-		'id'   => $prefix . 'title',
-		'type' => 'title',
-	) );
-
-	$cmb_demo->add_field( array(
-		'name'             => esc_html__( 'Test Select', 'cmb2' ),
-		'desc'             => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'               => $prefix . 'select',
-		'type'             => 'select',
-		'show_option_none' => true,
-		'options'          => array(
-			'standard' => esc_html__( 'Option One', 'cmb2' ),
-			'custom'   => esc_html__( 'Option Two', 'cmb2' ),
-			'none'     => esc_html__( 'Option Three', 'cmb2' ),
-		),
-	) );
-
-	$cmb_demo->add_field( array(
-		'name'             => esc_html__( 'Test Radio inline', 'cmb2' ),
-		'desc'             => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'               => $prefix . 'radio_inline',
-		'type'             => 'radio_inline',
-		'show_option_none' => 'No Selection',
-		'options'          => array(
-			'standard' => esc_html__( 'Option One', 'cmb2' ),
-			'custom'   => esc_html__( 'Option Two', 'cmb2' ),
-			'none'     => esc_html__( 'Option Three', 'cmb2' ),
-		),
-	) );
-
-	$cmb_demo->add_field( array(
-		'name'    => esc_html__( 'Test Radio', 'cmb2' ),
-		'desc'    => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'      => $prefix . 'radio',
-		'type'    => 'radio',
-		'options' => array(
-			'option1' => esc_html__( 'Option One', 'cmb2' ),
-			'option2' => esc_html__( 'Option Two', 'cmb2' ),
-			'option3' => esc_html__( 'Option Three', 'cmb2' ),
-		),
-	) );
-
-	$cmb_demo->add_field( array(
-		'name'     => esc_html__( 'Test Taxonomy Radio', 'cmb2' ),
-		'desc'     => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'       => $prefix . 'text_taxonomy_radio',
-		'type'     => 'taxonomy_radio',
-		'taxonomy' => 'category', // Taxonomy Slug
-		// 'inline'  => true, // Toggles display to inline
-	) );
-
-	$cmb_demo->add_field( array(
-		'name'     => esc_html__( 'Test Taxonomy Select', 'cmb2' ),
-		'desc'     => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'       => $prefix . 'taxonomy_select',
-		'type'     => 'taxonomy_select',
-		'taxonomy' => 'category', // Taxonomy Slug
-	) );
-
-	$cmb_demo->add_field( array(
-		'name'     => esc_html__( 'Test Taxonomy Multi Checkbox', 'cmb2' ),
-		'desc'     => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'       => $prefix . 'multitaxonomy',
-		'type'     => 'taxonomy_multicheck',
-		'taxonomy' => 'post_tag', // Taxonomy Slug
-		// 'inline'  => true, // Toggles display to inline
-	) );
-
-	$cmb_demo->add_field( array(
-		'name' => esc_html__( 'Test Checkbox', 'cmb2' ),
-		'desc' => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'   => $prefix . 'checkbox',
-		'type' => 'checkbox',
-	) );
-
-	$cmb_demo->add_field( array(
-		'name'    => esc_html__( 'Test Multi Checkbox', 'cmb2' ),
-		'desc'    => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'      => $prefix . 'multicheckbox',
-		'type'    => 'multicheck',
-		// 'multiple' => true, // Store values in individual rows
-		'options' => array(
-			'check1' => esc_html__( 'Check One', 'cmb2' ),
-			'check2' => esc_html__( 'Check Two', 'cmb2' ),
-			'check3' => esc_html__( 'Check Three', 'cmb2' ),
-		),
-		// 'inline'  => true, // Toggles display to inline
-	) );
-
-	$cmb_demo->add_field( array(
-		'name'    => esc_html__( 'Test wysiwyg', 'cmb2' ),
-		'desc'    => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'      => $prefix . 'wysiwyg',
-		'type'    => 'wysiwyg',
-		'options' => array( 'textarea_rows' => 5, ),
-	) );
-
-	$cmb_demo->add_field( array(
-		'name' => esc_html__( 'Test Image', 'cmb2' ),
-		'desc' => esc_html__( 'Upload an image or enter a URL.', 'cmb2' ),
-		'id'   => $prefix . 'image',
-		'type' => 'file',
-	) );
-
-	$cmb_demo->add_field( array(
-		'name'         => esc_html__( 'Multiple Files', 'cmb2' ),
-		'desc'         => esc_html__( 'Upload or add multiple images/attachments.', 'cmb2' ),
-		'id'           => $prefix . 'file_list',
-		'type'         => 'file_list',
-		'preview_size' => array( 100, 100 ), // Default: array( 50, 50 )
-	) );
-
-	$cmb_demo->add_field( array(
-		'name' => esc_html__( 'oEmbed', 'cmb2' ),
-		'desc' => sprintf(
-			/* translators: %s: link to codex.wordpress.org/Embeds */
-			esc_html__( 'Enter a youtube, twitter, or instagram URL. Supports services listed at %s.', 'cmb2' ),
-			'<a href="https://codex.wordpress.org/Embeds">codex.wordpress.org/Embeds</a>'
-		),
-		'id'   => $prefix . 'embed',
-		'type' => 'oembed',
-	) );
-
-	$cmb_demo->add_field( array(
-		'name'         => 'Testing Field Parameters',
-		'id'           => $prefix . 'parameters',
-		'type'         => 'text',
-		'before_row'   => 'yourprefix_before_row_if_2', // callback
-		'before'       => '<p>Testing <b>"before"</b> parameter</p>',
-		'before_field' => '<p>Testing <b>"before_field"</b> parameter</p>',
-		'after_field'  => '<p>Testing <b>"after_field"</b> parameter</p>',
-		'after'        => '<p>Testing <b>"after"</b> parameter</p>',
-		'after_row'    => '<p>Testing <b>"after_row"</b> parameter</p>',
-	) );
-
+$zf_spot_box->add_field( array(
+	'name' => esc_html__( 'Section Content', 'cmb2' ),
+	'desc' => esc_html__( 'Add content using the editor below.', 'cmb2' ),
+	'id'   => $prefix . 'spot_description',
+	'type' => 'wysiwyg'
+) );
 }
+//Products Controllers
+add_action( 'cmb2_init', 'cont_register_metabox' );
+function cont_register_metabox() {
+$prefix = 'zf_';
 
-add_action( 'cmb2_admin_init', 'yourprefix_register_about_page_metabox' );
-/**
- * Hook in and add a metabox that only appears on the 'About' page
- */
-function yourprefix_register_about_page_metabox() {
-	$prefix = 'yourprefix_about_';
+$zf_cont_box = new_cmb2_box( array(
+	'id'            => $prefix . 'prod_controller',
+	'title'         => __( 'Controllers', 'cmb2' ),
+	'object_types'  => array( 'page', ), // Post type
+	'show_on'      => array( 'key' => 'page-template', 'value' => 'products.php' ),
+	'closed'     => true, // true to keep the metabox closed by default
+) );
 
-	/**
-	 * Metabox to be displayed on a single page ID
-	 */
-	$cmb_about_page = new_cmb2_box( array(
-		'id'           => $prefix . 'metabox',
-		'title'        => esc_html__( 'About Page Metabox', 'cmb2' ),
-		'object_types' => array( 'page', ), // Post type
-		'context'      => 'normal',
-		'priority'     => 'high',
-		'show_names'   => true, // Show field names on the left
-		'show_on'      => array( 'id' => array( 2, ) ), // Specific post IDs to display this metabox
-	) );
-
-	$cmb_about_page->add_field( array(
-		'name' => esc_html__( 'Test Text', 'cmb2' ),
-		'desc' => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'   => $prefix . 'text',
-		'type' => 'text',
-	) );
-
+$zf_cont_box->add_field( array(
+	'name' => esc_html__( 'Section Content', 'cmb2' ),
+	'desc' => esc_html__( 'Add content using the editor below.', 'cmb2' ),
+	'id'   => $prefix . 'cont_description',
+	'type' => 'wysiwyg'
+) );
 }
-
-add_action( 'cmb2_admin_init', 'yourprefix_register_repeatable_group_field_metabox' );
-/**
- * Hook in and add a metabox to demonstrate repeatable grouped fields
- */
-function yourprefix_register_repeatable_group_field_metabox() {
-	$prefix = 'yourprefix_group_';
-
+//Home Page Slider
+add_action( 'cmb2_admin_init', 'home_slider_register_metabox' );
+function home_slider_register_metabox() {
+$prefix = 'zf_';
 	/**
 	 * Repeatable Field Groups
 	 */
-	$cmb_group = new_cmb2_box( array(
-		'id'           => $prefix . 'metabox',
-		'title'        => esc_html__( 'Repeating Field Group', 'cmb2' ),
+	$cmb_slide_group = new_cmb2_box( array(
+		'id'           => $prefix . 'home_slides',
+		'title'        => __( 'Home Page Slider', 'cmb2' ),
 		'object_types' => array( 'page', ),
+		'show_on_cb' => 'bg_show_if_front_page',
+		'closed'     => true, // true to keep the metabox closed by default
+		
 	) );
 
 	// $group_field_id is the field id string, so in this case: $prefix . 'demo'
-	$group_field_id = $cmb_group->add_field( array(
-		'id'          => $prefix . 'demo',
+	$group_field_id = $cmb_slide_group->add_field( array(
+		'id'          => 'home_slider_box',
 		'type'        => 'group',
-		'description' => esc_html__( 'Generates reusable form entries', 'cmb2' ),
+		'description' => __( 'Use the fields below to populate the slider. Add additional slides as needed.' ),
 		'options'     => array(
-			'group_title'   => esc_html__( 'Entry {#}', 'cmb2' ), // {#} gets replaced by row number
-			'add_button'    => esc_html__( 'Add Another Entry', 'cmb2' ),
-			'remove_button' => esc_html__( 'Remove Entry', 'cmb2' ),
+			'group_title'   => __( 'Slide {#}', 'cmb2' ), // {#} gets replaced by row number
+			'add_button'    => __( 'Add Slide', 'cmb2' ),
+			'remove_button' => __( 'Remove Slide', 'cmb2' ),
+			'sortable'      => true, 
+			'closed'     => true, // true to have the groups closed by default
+		),
+	) );
+	/**
+	 * Group fields works the same, except ids only need
+	 * to be unique to the group. Prefix is not needed.
+	 *
+	 * The parent field's id needs to be passed as the first argument.
+	 */
+	 
+	$cmb_slide_group->add_group_field( $group_field_id, array(
+		'name' => __( 'Slide Image', 'cmb2' ),
+		'description' => __( 'Upload Slide Image', 'cmb2' ),
+		'id'   => 'slide_image',
+		'type' => 'file',
+	) );
+	$cmb_slide_group->add_group_field( $group_field_id, array(
+		'name'        => __( 'Slide Header', 'cmb2' ),
+		'description' => __( 'Add Header Text.', 'cmb2' ),
+		'id'          => 'slide_header',
+		'type'        => 'textarea_small',
+	) );
+	$cmb_slide_group->add_group_field( $group_field_id, array(
+		'name'        => __( 'Slide Text', 'cmb2' ),
+		'description' => __( 'Add Paragraph Text.', 'cmb2' ),
+		'id'          => 'slide_text',
+		'type'        => 'textarea_small',
+	) );
+	
+
+	$cmb_slide_group->add_group_field( $group_field_id, array(
+		'name' => esc_html__( 'Link to Page', 'cmb2' ),
+		'desc' => esc_html__( 'Input the url for the Learn More destination page.', 'cmb2' ),
+		'id'   => 'learn_more',
+		'type' => 'text_url',
+	) );
+
+}
+add_action( 'cmb2_admin_init', 'zf_register_repeatable_group_field_metabox' );
+/**
+ * Hook in and add a metabox to demonstrate repeatable grouped fields
+ */
+function zf_register_repeatable_group_field_metabox() {
+$prefix = 'zf_group_';
+	
+/**
+	 * Repeatable Field Groups
+	 */
+	$cmb_featured_group = new_cmb2_box( array(
+		'id'           => $prefix . 'featured',
+		'title'        => __( 'Featured Content', 'cmb2' ),
+		'object_types' => array( 'page'),
+		'show_on_cb' => 'bg_show_if_front_page',
+		'closed'     => true, // true to keep the metabox closed by default
+	) );
+
+	// $group_field_id is the field id string, so in this case: $prefix . 'demo'
+	$group_field_id = $cmb_featured_group->add_field( array(
+		'id'          => 'featured_box',
+		'type'        => 'group',
+		'description' => __( 'Use the 3 boxes below to add Featured Content. If this section has content, it will appear below the slider on the Home page. Note: The layout is designed for 3 boxes of content. Using less than 3 is not advised. ' ),
+		'options'     => array(
+			'group_title'   => __( 'Featured Box {#}', 'cmb2' ), // {#} gets replaced by row number
+			/*'add_button'    => __( 'Add Another Box', 'cmb2' ),
+			'remove_button' => __( 'Remove Box', 'cmb2' ),*/
+			'add_button'    => false,
+			'remove_button' => false,
 			'sortable'      => true, // beta
-			// 'closed'     => true, // true to have the groups closed by default
+			'closed'     => true, // true to have the groups closed by default
 		),
 	) );
 
@@ -493,180 +298,608 @@ function yourprefix_register_repeatable_group_field_metabox() {
 	 *
 	 * The parent field's id needs to be passed as the first argument.
 	 */
-	$cmb_group->add_group_field( $group_field_id, array(
-		'name'       => esc_html__( 'Entry Title', 'cmb2' ),
+	$cmb_featured_group->add_group_field( $group_field_id, array(
+		'name'       => __( 'Feature Title', 'cmb2' ),
 		'id'         => 'title',
 		'type'       => 'text',
 		// 'repeatable' => true, // Repeatable fields are supported w/in repeatable groups (for most types)
 	) );
 
-	$cmb_group->add_group_field( $group_field_id, array(
-		'name'        => esc_html__( 'Description', 'cmb2' ),
-		'description' => esc_html__( 'Write a short description for this entry', 'cmb2' ),
-		'id'          => 'description',
+	$cmb_featured_group->add_group_field( $group_field_id, array(
+		'name'        => __( 'Feature Text', 'cmb2' ),
+		'description' => __( 'Small Image Text', 'cmb2' ),
+		'id'          => 'featured-text',
 		'type'        => 'textarea_small',
 	) );
 
-	$cmb_group->add_group_field( $group_field_id, array(
-		'name' => esc_html__( 'Entry Image', 'cmb2' ),
+	$cmb_featured_group->add_group_field( $group_field_id, array(
+		'name' => __( 'Feature Image', 'cmb2' ),
 		'id'   => 'image',
 		'type' => 'file',
 	) );
 
-	$cmb_group->add_group_field( $group_field_id, array(
-		'name' => esc_html__( 'Image Caption', 'cmb2' ),
-		'id'   => 'image_caption',
+	$cmb_featured_group->add_group_field( $group_field_id, array(
+		'name' => esc_html__( 'Link to Page', 'cmb2' ),
+		'desc' => esc_html__( 'Input the url for the featured content.', 'cmb2' ),
+		'id'   => 'link_box',
+		'type' => 'text_url',
+	) );
+
+}
+//Industry Child Page Metaboxes
+add_action( 'cmb2_admin_init', 'image_carousel_register_metabox' );
+function image_carousel_register_metabox() {
+
+$prefix = 'zf_';
+	/**
+	 * Repeatable Field Groups
+	 */
+	$zf_carousel_group = new_cmb2_box( array(
+		'id'           => $prefix . 'image_carousel',
+		'title'        => __( 'Image Carousel', 'cmb2' ),
+		'object_types' => array( 'page'),
+		'show_on'      => array( 'key' => 'page-template', 'value' => 'industry-sub.php' ),
+		'closed'     => true, // true to keep the metabox closed by default
+	) );
+
+	// $group_field_id is the field id string, so in this case: $prefix . 'demo'
+	$group_field_id = $zf_carousel_group->add_field( array(
+		'id'          => 'image_carousel',
+		'type'        => 'group',
+		'description' => __( 'Add installed fan image files as needed. They will display in the carousel.' ),
+		'options'     => array(
+			'group_title'   => __( 'Image {#}', 'cmb2' ), // {#} gets replaced by row number
+			'add_button'    => __( 'Add Image', 'cmb2' ),
+			'remove_button' => __( 'Remove Image', 'cmb2' ),
+			
+			'sortable'      => true, // beta
+			'closed'     => true, // true to have the groups closed by default
+		),
+	) );
+	/**
+	 * Group fields works the same, except ids only need
+	 * to be unique to the group. Prefix is not needed.
+	 *
+	 * The parent field's id needs to be passed as the first argument.
+	 */
+	 
+	$zf_carousel_group->add_group_field( $group_field_id, array(
+		'name' => __( 'Image', 'cmb2' ),
+		'description' => __( 'Upload Image', 'cmb2' ),
+		'id'   => 'ind_image',
+		'type' => 'file',
+	) );
+	$zf_carousel_group->add_group_field( $group_field_id, array(
+		'name' => __( 'Image URL', 'cmb2' ),
+		'description' => __( 'Link to the media file', 'cmb2' ),
+		'id'   => 'ind_image_url',
 		'type' => 'text',
 	) );
 
 }
+add_action( 'cmb2_admin_init', 'logo_carousel_register_metabox' );
+function logo_carousel_register_metabox() {
 
-add_action( 'cmb2_admin_init', 'yourprefix_register_user_profile_metabox' );
-/**
- * Hook in and add a metabox to add fields to the user profile pages
- */
-function yourprefix_register_user_profile_metabox() {
-	$prefix = 'yourprefix_user_';
-
+$prefix = 'zf_';
 	/**
-	 * Metabox for the user profile screen
+	 * Repeatable Field Groups
 	 */
-	$cmb_user = new_cmb2_box( array(
-		'id'               => $prefix . 'edit',
-		'title'            => esc_html__( 'User Profile Metabox', 'cmb2' ), // Doesn't output for user boxes
-		'object_types'     => array( 'user' ), // Tells CMB2 to use user_meta vs post_meta
-		'show_names'       => true,
-		'new_user_section' => 'add-new-user', // where form will show on new user page. 'add-existing-user' is only other valid option.
+	$zf_logo_group = new_cmb2_box( array(
+		'id'           => $prefix . 'logo_carousel',
+		'title'        => __( 'Logo Carousel', 'cmb2' ),
+		'object_types' => array( 'page'),
+		'show_on'      => array( 'key' => 'page-template', 'value' => 'industry.php' ),
+		'closed'     => true, // true to keep the metabox closed by default
 	) );
 
-	$cmb_user->add_field( array(
-		'name'     => esc_html__( 'Extra Info', 'cmb2' ),
-		'desc'     => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'       => $prefix . 'extra_info',
-		'type'     => 'title',
-		'on_front' => false,
+	// $group_field_id is the field id string, so in this case: $prefix . 'demo'
+	$group_field_id = $zf_logo_group->add_field( array(
+		'id'          => 'logo_carousel',
+		'type'        => 'group',
+		'description' => __( 'Add industry-specific logo image files as needed. These are specific to all of the pages under this category.' ),
+		'options'     => array(
+			'group_title'   => __( 'Logo {#}', 'cmb2' ), // {#} gets replaced by row number
+			'add_button'    => __( 'Add Logo', 'cmb2' ),
+			'remove_button' => __( 'Remove Logo', 'cmb2' ),
+			
+			'sortable'      => true, // beta
+			'closed'     => true, // true to have the groups closed by default
+		),
 	) );
-
-	$cmb_user->add_field( array(
-		'name'    => esc_html__( 'Avatar', 'cmb2' ),
-		'desc'    => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'      => $prefix . 'avatar',
-		'type'    => 'file',
-	) );
-
-	$cmb_user->add_field( array(
-		'name' => esc_html__( 'Facebook URL', 'cmb2' ),
-		'desc' => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'   => $prefix . 'facebookurl',
-		'type' => 'text_url',
-	) );
-
-	$cmb_user->add_field( array(
-		'name' => esc_html__( 'Twitter URL', 'cmb2' ),
-		'desc' => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'   => $prefix . 'twitterurl',
-		'type' => 'text_url',
-	) );
-
-	$cmb_user->add_field( array(
-		'name' => esc_html__( 'Google+ URL', 'cmb2' ),
-		'desc' => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'   => $prefix . 'googleplusurl',
-		'type' => 'text_url',
-	) );
-
-	$cmb_user->add_field( array(
-		'name' => esc_html__( 'Linkedin URL', 'cmb2' ),
-		'desc' => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'   => $prefix . 'linkedinurl',
-		'type' => 'text_url',
-	) );
-
-	$cmb_user->add_field( array(
-		'name' => esc_html__( 'User Field', 'cmb2' ),
-		'desc' => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'   => $prefix . 'user_text_field',
-		'type' => 'text',
-	) );
-
-}
-
-add_action( 'cmb2_admin_init', 'yourprefix_register_taxonomy_metabox' );
-/**
- * Hook in and add a metabox to add fields to taxonomy terms
- */
-function yourprefix_register_taxonomy_metabox() {
-	$prefix = 'yourprefix_term_';
-
 	/**
-	 * Metabox to add fields to categories and tags
+	 * Group fields works the same, except ids only need
+	 * to be unique to the group. Prefix is not needed.
+	 *
+	 * The parent field's id needs to be passed as the first argument.
 	 */
-	$cmb_term = new_cmb2_box( array(
-		'id'               => $prefix . 'edit',
-		'title'            => esc_html__( 'Category Metabox', 'cmb2' ), // Doesn't output for term boxes
-		'object_types'     => array( 'term' ), // Tells CMB2 to use term_meta vs post_meta
-		'taxonomies'       => array( 'category', 'post_tag' ), // Tells CMB2 which taxonomies should have these fields
-		// 'new_term_section' => true, // Will display in the "Add New Category" section
-	) );
-
-	$cmb_term->add_field( array(
-		'name'     => esc_html__( 'Extra Info', 'cmb2' ),
-		'desc'     => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'       => $prefix . 'extra_info',
-		'type'     => 'title',
-		'on_front' => false,
-	) );
-
-	$cmb_term->add_field( array(
-		'name' => esc_html__( 'Term Image', 'cmb2' ),
-		'desc' => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'   => $prefix . 'avatar',
+	 
+	$zf_logo_group->add_group_field( $group_field_id, array(
+		'name' => __( 'Logo Image', 'cmb2' ),
+		'description' => __( 'Upload Logo Image', 'cmb2' ),
+		'id'   => 'logo_image',
 		'type' => 'file',
 	) );
 
-	$cmb_term->add_field( array(
-		'name' => esc_html__( 'Arbitrary Term Field', 'cmb2' ),
-		'desc' => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'   => $prefix . 'term_text_field',
-		'type' => 'text',
-	) );
+}
+//Industry Page Custom Content
+add_action( 'cmb2_init', 'ind_subpage_register_metabox' );
+function ind_subpage_register_metabox() {
+	$prefix = 'zf_';
 
+$zf_ind_boxes = new_cmb2_box( array(
+	'id'            => $prefix . 'ind_sb',
+	'title'         => __( 'Custom Industry Content', 'cmb2' ),
+	'object_types'  => array( 'page'), // Post type
+	'show_on'      => array( 'key' => 'page-template', 'value' => 'industry-sub.php' ),
+	'closed'     => true, // true to keep the metabox closed by default
+) );
+$zf_ind_boxes->add_field( array(
+	'name' => esc_html__( 'Custom Sidebar for Industry Subpages', 'cmb2' ),
+	'desc' => esc_html__( 'Add custom content above.', 'cmb2' ),
+	'id'   => $prefix . 'ind_examples',
+	'type' => 'wysiwyg',
+) );
+
+$zf_ind_boxes->add_field( array(
+	'name' => esc_html__( 'Industry Plural', 'cmb2' ),
+	'desc' => esc_html__( 'For related content. Ex: Grocery Stores', 'cmb2' ),
+	'id'   => $prefix . 'ind_plural',
+	'type' => 'text',
+) );
+
+$zf_rel_prod_check = new_cmb2_box( array(
+	'id'    => $prefix . 'ind_sb_related_check',
+	'title'  => __( 'Related Products (Select all that apply).', 'cmb2' ),
+	'object_types'  => array( 'page'), // Post type
+	'show_on'      => array( 'key' => 'page-template', 'value' => 'industry-sub.php' ),
+	'closed'     => true, // true to keep the metabox closed by default
+) );
+
+$zf_rel_prod_check->add_field( array(
+'name' => esc_html__( 'Open Ceiling', 'cmb2' ),
+'id'   => $prefix . 'ind_fan_open_check',
+'type'    => 'checkbox',
+) );
+$zf_rel_prod_check->add_field( array(
+'name' => esc_html__( 'Drop Ceiling', 'cmb2' ),
+'id'   => $prefix . 'ind_fan_drop_check',
+'type'    => 'checkbox',
+) );
+$zf_rel_prod_check->add_field( array(
+'name' => esc_html__( 'Spot Cooling', 'cmb2' ),
+'id'   => $prefix . 'ind_fan_spot_check',
+'type'    => 'checkbox',
+) );
 }
 
-add_action( 'cmb2_admin_init', 'yourprefix_register_theme_options_metabox' );
-/**
- * Hook in and register a metabox to handle a theme options page
- */
-function yourprefix_register_theme_options_metabox() {
+//Media Page Metaboxes
+add_action( 'cmb2_admin_init', 'videos_register_metabox' );
+function videos_register_metabox() {
 
-	$option_key = 'yourprefix_theme_options';
-
+$prefix = 'zf_';
 	/**
-	 * Metabox for an options page. Will not be added automatically, but needs to be called with
-	 * the `cmb2_metabox_form` helper function. See wiki for more info.
+	 * Repeatable Field Groups
 	 */
-	$cmb_options = new_cmb2_box( array(
-		'id'      => $option_key . 'page',
-		'title'   => esc_html__( 'Theme Options Metabox', 'cmb2' ),
-		'hookup'  => false, // Do not need the normal user/post hookup
-		'show_on' => array(
-			// These are important, don't remove
-			'key'   => 'options-page',
-			'value' => array( $option_key )
+	$zf_video_group = new_cmb2_box( array(
+		'id'           => $prefix . 'videos',
+		'title'        => __( 'Videos', 'cmb2' ),
+		'object_types' => array( 'page'),
+		'show_on'      => array( 'key' => 'page-template', 'value' => 'media.php' ),
+		'closed'     => true, // true to keep the metabox closed by default
+	) );
+
+	// $group_field_id is the field id string, so in this case: $prefix . 'demo'
+	$group_field_id = $zf_video_group->add_field( array(
+		'id'          => 'video_metabox',
+		'type'        => 'group',
+		'options'     => array(
+			'group_title'   => __( 'Video {#}', 'cmb2' ), // {#} gets replaced by row number
+			'add_button'    => __( 'Add Video', 'cmb2' ),
+			'remove_button' => __( 'Remove Video', 'cmb2' ),
+			
+			'sortable'      => true, // beta
+			'closed'     => true, // true to have the groups closed by default
 		),
 	) );
-
 	/**
-	 * Options fields ids only need
-	 * to be unique within this option group.
-	 * Prefix is not needed.
+	 * Group fields works the same, except ids only need
+	 * to be unique to the group. Prefix is not needed.
+	 *
+	 * The parent field's id needs to be passed as the first argument.
 	 */
-	$cmb_options->add_field( array(
-		'name'    => esc_html__( 'Site Background Color', 'cmb2' ),
-		'desc'    => esc_html__( 'field description (optional)', 'cmb2' ),
-		'id'      => 'bg_color',
-		'type'    => 'colorpicker',
-		'default' => '#ffffff',
+	 $zf_video_group->add_group_field( $group_field_id, array(
+		'name' => __( 'Video Title', 'cmb2' ),
+		'description' => __( 'Enter the title of the video.', 'cmb2' ),
+		'id'   => 'video_title',
+		'type' => 'text_url',
+	) );
+	$zf_video_group->add_group_field( $group_field_id, array(
+		'name' => __( 'Video', 'cmb2' ),
+		'description' => __( 'Embed Video.', 'cmb2' ),
+		'id'   => 'video_embed',
+		'type' => 'oembed',
 	) );
 
 }
+//Rep Page
+add_action( 'cmb2_admin_init', 'rep_register_metabox' );
+function rep_register_metabox() {
+
+$prefix = 'zf_';
+$zf_rep_downloads = new_cmb2_box( array(
+	'id'    => $prefix . 'rep-downloads',
+	'title'  => __( 'General Downloads', 'cmb2' ),
+	'object_types'  => array( 'page'), // Post type
+	'show_on'      => array( 'key' => 'page-template', 'value' => 'reps.php' ),
+	'closed'     => true, // true to keep the metabox closed by default
+) );
+
+		$zf_rep_downloads->add_field( array(
+		'name' => esc_html__( 'Sales Materials', 'cmb2' ),
+		'id'   => $prefix . 'ind_rep_sales',
+		'type'    => 'wysiwyg',
+		) );
+		$zf_rep_downloads->add_field( array(
+		'name' => esc_html__( 'Engineering Information', 'cmb2' ),
+		'id'   => $prefix . 'ind_rep_engineer',
+		'type'    => 'wysiwyg',
+		) );
+		$zf_rep_downloads->add_field( array(
+		'name' => esc_html__( 'Ordering', 'cmb2' ),
+		'id'   => $prefix . 'ind_rep_order',
+		'type'    => 'wysiwyg',
+		) );
+	
+$zf_rep_open_ceil = new_cmb2_box( array(
+	'id'    => $prefix . 'rep-oc',
+	'title'  => __( 'Open Ceiling Downloads', 'cmb2' ),
+	'object_types'  => array( 'page'), // Post type
+	'show_on'      => array( 'key' => 'page-template', 'value' => 'reps.php' ),
+	'closed'     => true, // true to keep the metabox closed by default
+) );
+
+		$zf_rep_open_ceil->add_field( array(
+		'name' => esc_html__( 'Technical Information', 'cmb2' ),
+		'id'   => $prefix . 'ind_rep_oc_tech',
+		'type'    => 'wysiwyg',
+		) );
+		$zf_rep_open_ceil->add_field( array(
+		'name' => esc_html__( 'Installation', 'cmb2' ),
+		'id'   => $prefix . 'ind_rep_oc_install',
+		'type'    => 'wysiwyg',
+		) );
+
+
+$zf_rep_drop_ceil = new_cmb2_box( array(
+	'id'    => $prefix . 'rep-dc',
+	'title'  => __( 'Drop Ceiling Downloads', 'cmb2' ),
+	'object_types'  => array( 'page'), // Post type
+	'show_on'      => array( 'key' => 'page-template', 'value' => 'reps.php' ),
+	'closed'     => true, // true to keep the metabox closed by default
+) );
+
+		$zf_rep_drop_ceil->add_field( array(
+		'name' => esc_html__( 'Technical Information', 'cmb2' ),
+		'id'   => $prefix . 'ind_rep_dc_tech',
+		'type'    => 'wysiwyg',
+		) );
+		$zf_rep_drop_ceil->add_field( array(
+		'name' => esc_html__( 'Installation', 'cmb2' ),
+		'id'   => $prefix . 'ind_rep_dc_install',
+		'type'    => 'wysiwyg',
+		) );
+}
+//FAQs
+add_action( 'cmb2_admin_init', 'faq_register_metabox' );
+function faq_register_metabox() {
+$prefix = 'zf_';
+/**
+	 * Repeatable Field Groups
+	 */
+	$zf_faq_group = new_cmb2_box( array(
+		'id'           => $prefix . 'faq_box',
+		'title'        => __( 'FAQs', 'cmb2' ),
+		'object_types'  => array('page'),
+		'show_on'      => array( 'key' => 'page-template', 'value' => 'faq.php' ),
+		'sortable' 	=> true,
+		'closed'     => false, // true to keep the metabox closed by default
+	) );
+
+			// $group_field_id is the field id string, so in this case: $prefix . 'demo'
+			$group_field_id = $zf_faq_group->add_field( array(
+				'id'          => 'faq',
+				'type'        => 'group',
+				'description' => __( 'Enter your FAQs below.' ),
+				'options'     => array(
+					'group_title'   => __( 'FAQ {#}', 'cmb2' ), // {#} gets replaced by row number
+					'add_button'    => __( 'Add FAQ', 'cmb2' ),
+					'remove_button' => __( 'Remove FAQ', 'cmb2' ),
+			
+					'sortable'      => true, // beta
+					'closed'     => true, // true to have the groups closed by default
+				),
+			) );
+	 
+			$zf_faq_group->add_group_field( $group_field_id, array(
+				'name' => __( 'Question', 'cmb2' ),
+				'description' => __( 'Enter the question.', 'cmb2' ),
+				'id'   => 'faq_ques',
+				'type' => 'text',
+			) );
+			$zf_faq_group->add_group_field( $group_field_id, array(
+				'name' => __( 'Answer', 'cmb2' ),
+				'description' => __( 'Enter the Answer.', 'cmb2' ),
+				'id'   => 'faq_ans',
+				'type' => 'wysiwyg',
+			) );			
+}
+
+//Product Listings
+add_action( 'cmb2_admin_init', 'product_register_metabox' );
+function product_register_metabox() {
+$prefix = 'zf_';
+/**
+	 * Repeatable Field Groups
+	 */
+	$zf_prod_image_group = new_cmb2_box( array(
+		'id'           => $prefix . 'product_images',
+		'title'        => __( 'Product Images', 'cmb2' ),
+		'object_types'  => array('product'),
+		'closed'     => true, // true to keep the metabox closed by default
+		
+	) );
+
+			// $group_field_id is the field id string, so in this case: $prefix . 'demo'
+			$img_prod_group = $zf_prod_image_group->add_field( array(
+				'id'          => 'prod_images',
+				'type'        => 'group',
+				'description' => __( 'Add product image files as needed.' ),
+				'options'     => array(
+					'group_title'   => __( 'Product Image {#}', 'cmb2' ), // {#} gets replaced by row number
+					'add_button'    => __( 'Add Product Image', 'cmb2' ),
+					'remove_button' => __( 'Remove Product Image', 'cmb2' ),
+					'sortable'  => true, // beta,			
+					'closed'     => true, // true to have the groups closed by default
+				),
+			) );
+	 
+			$zf_prod_image_group->add_group_field( $img_prod_group, array(
+				'name' => __( 'Product Image', 'cmb2' ),
+				'description' => __( 'Add Product Image', 'cmb2' ),
+				'id'   => 'prod_image',
+				'type' => 'file',		
+			) );
+	$zf_prod_subtitle = new_cmb2_box( array(
+	'id'    => $prefix . 'prod_subtitle',
+	'title'  => __( 'Product Subtitle', 'cmb2' ),
+	'object_types'  => array( 'product'), // Post type
+	'closed'     => true, // true to keep the metabox closed by default
+) );
+
+		$zf_prod_subtitle->add_field( array(
+		'name' => esc_html__( 'Product Subtitle', 'cmb2' ),
+		'id'   => $prefix . 'prod_sub',
+		'type'    => 'text',
+		) );
+	
+	$zf_prod_features = new_cmb2_box( array(
+	'id'    => $prefix . 'prod_features',
+	'title'  => __( 'Product Features', 'cmb2' ),
+	'object_types'  => array( 'product'), // Post type
+	'closed'     => true, // true to keep the metabox closed by default
+) );
+
+		$zf_prod_features->add_field( array(	
+		'id'   => $prefix . 'prod_feat',
+		'type'    => 'wysiwyg',
+		) );
+		
+		$zf_prod_features->add_field( array(	
+		'name' => esc_html__( 'ETL Logo', 'cmb2' ),
+		'id'   => $prefix . 'prod_etl',
+		'type'    => 'file',
+		) );
+		
+		
+		
+	$zf_prod_downloads = new_cmb2_box( array(
+	'id'    => $prefix . 'prod_download_links',
+	'title'  => __( 'Download Links', 'cmb2' ),
+	'object_types'  => array( 'product'), // Post type
+	'closed'     => true, // true to keep the metabox closed by default
+) );	
+		$zf_prod_downloads->add_field( array(
+		'name' => esc_html__( 'Submittal Link', 'cmb2' ),	
+		'id'   => $prefix . 'prod_submittal',
+		'type' => 'text_url',
+		) );
+		
+		$zf_prod_downloads->add_field( array(
+		'name' => esc_html__( 'Link to Specs PDF', 'cmb2' ),	
+		'id'   => $prefix . 'prod_spec_link',
+		'type' => 'text_url',
+		) );
+		
+		$zf_prod_downloads->add_field( array(
+		'name' => esc_html__( 'Installation Guide Link', 'cmb2' ),	
+		'id'   => $prefix . 'prod_install_gd',
+		'type' => 'text_url',
+		) );
+		
+		$zf_prod_downloads->add_field( array(
+		'name' => esc_html__( 'Installation Guide Link (Additional for Controllers)', 'cmb2' ),	
+		'id'   => $prefix . 'prod_install_gd_two',
+		'type' => 'text_url',
+		) );
+		
+		$zf_prod_downloads->add_field( array(
+		'name' => esc_html__( 'Performance Data Link', 'cmb2' ),	
+		'id'   => $prefix . 'prod_perf_data',
+		'type' => 'text_url',
+		) );
+		
+		$zf_prod_downloads->add_field( array(
+		'name' => esc_html__( 'Operating Manual Link', 'cmb2' ),	
+		'id'   => $prefix . 'prod_op_manual',
+		'type' => 'text_url',
+		) );
+		
+			
+		
+	$zf_prod_details = new_cmb2_box( array(
+	'id'    => $prefix . 'prod_details',
+	'title'  => __( 'Additional Details', 'cmb2' ),
+	'object_types'  => array( 'product'), // Post type
+	'closed'     => true, // true to keep the metabox closed by default
+) );	
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Specifications', 'cmb2' ),	
+		'id'   => $prefix . 'prod_specs',
+		'type' => 'wysiwyg',
+		) );	
+		
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Sound Level Calculations', 'cmb2' ),	
+		'id'   => $prefix . 'prod_sound_level',
+		'type' => 'wysiwyg',
+		) );
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Ducting', 'cmb2' ),	
+		'id'   => $prefix . 'prod_ducting',
+		'type' => 'wysiwyg',
+		) );
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Diffuser', 'cmb2' ),	
+		'id'   => $prefix . 'prod_diffuser',
+		'type' => 'wysiwyg',
+		) );
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Sound Characteristics', 'cmb2' ),	
+		'id'   => $prefix . 'prod_sound_char',
+		'type' => 'wysiwyg',
+		) );
+		
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Certifications', 'cmb2' ),	
+		'id'   => $prefix . 'prod_certs',
+		'type' => 'wysiwyg',
+		) );
+		
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Motor', 'cmb2' ),	
+		'id'   => $prefix . 'prod_motor',
+		'type' => 'wysiwyg',
+		) );
+		
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Housing', 'cmb2' ),	
+		'id'   => $prefix . 'prod_housing',
+		'type' => 'wysiwyg',
+		) );
+		
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Coverage', 'cmb2' ),	
+		'id'   => $prefix . 'prod_coverage',
+		'type' => 'wysiwyg',
+		) );
+		
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Options', 'cmb2' ),	
+		'id'   => $prefix . 'prod_options',
+		'type' => 'wysiwyg',
+		) );
+		
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Installation Hardware', 'cmb2' ),	
+		'id'   => $prefix . 'prod_hardware',
+		'type' => 'wysiwyg',
+		) );
+		
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Dimensions', 'cmb2' ),	
+		'id'   => $prefix . 'prod_dimensions',
+		'type' => 'wysiwyg',
+		) );
+		
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Fan Speed vs Usage', 'cmb2' ),	
+		'id'   => $prefix . 'prod_speed_usage',
+		'type' => 'wysiwyg',
+		) );
+		
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Warranty', 'cmb2' ),	
+		'id'   => $prefix . 'prod_warranty',
+		'type' => 'wysiwyg',
+		) );
+		
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Controller', 'cmb2' ),	
+		'id'   => $prefix . 'prod_controller',
+		'type' => 'wysiwyg',
+		) );
+		
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Optional Manual Control', 'cmb2' ),	
+		'id'   => $prefix . 'prod_manual_control',
+		'type' => 'wysiwyg',
+		) );
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Electric Table', 'cmb2' ),	
+		'id'   => $prefix . 'prod_elec_table',
+		'type' => 'wysiwyg',
+		) );
+		
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Multi-Zone Control Cabinet', 'cmb2' ),	
+		'id'   => $prefix . 'prod_mz_cont_cabinet',
+		'type' => 'wysiwyg',
+		) );
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'User Interface', 'cmb2' ),	
+		'id'   => $prefix . 'prod_user_interface',
+		'type' => 'wysiwyg',
+		) );
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Autotransformer', 'cmb2' ),	
+		'id'   => $prefix . 'prod_autotransformer',
+		'type' => 'wysiwyg',
+		) );
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Automatic Mode', 'cmb2' ),	
+		'id'   => $prefix . 'prod_auto_mode',
+		'type' => 'wysiwyg',
+		) );
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Wiring Example', 'cmb2' ),	
+		'id'   => $prefix . 'prod_wiring',
+		'type' => 'wysiwyg',
+		) );
+}
+//Similar Products on Product Single template
+add_action( 'cmb2_init', 'sim_prod_register_metabox' );
+function sim_prod_register_metabox() {
+$prefix = 'zf_';
+
+$cmb_sim_prod = new_cmb2_box( array(
+	'id'           => $prefix . 'similar_products',
+	'title'        => __( 'Similar Products' ),
+	'object_types' => array( 'product', ), // Post type
+) );
+
+// Add new field
+$cmb_sim_prod->add_field( array(
+	'name'        => __( 'Products' ),
+	'id'          => $prefix . 'sim_product',
+	'type'        => 'post_search_text', // This field type
+	'description' => __( 'Enter a comma-separated list of post IDs, or use the search icon to select posts.' ),
+	// post type also as array
+	'post_type'   => 'product',
+	// Default is 'checkbox', used in the modal view to select the post type
+	'select_type' => 'checkbox',
+	
+	
+) );
+
+}
+?>
