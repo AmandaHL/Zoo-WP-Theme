@@ -1,6 +1,17 @@
 <?php //products page grid
 ?>
 </section>
+<section>
+<?php $products = get_page_children( $page_id, $pages );?>
+
+<?php get_template_part('template/grid');?>
+
+
+
+</section>
+
+
+
 <?php // set up the product grids
 $prod = array(
 	
@@ -11,12 +22,14 @@ $prod = array(
     'orderby'        => 'menu_order'
  );
 
-$des_prod = array(  'post__in'=>	array(110,112) );
+$open_prod = array(  'post__in'=>	array(110) );
+$drop_prod = array(  'post__in'=>	array(112) );
 $spot_prod = array( 'post__in'=>	array(114) ); 
 $cont_prod = array( 'post__in'=>	array(116) );
 
 $prod_query = new WP_Query( $prod );
-$des_prod_query = array_merge( $prod, $des_prod );
+$open_prod_query = array_merge( $prod, $open_prod );
+$drop_prod_query = array_merge( $prod, $drop_prod );
 $spot_prod_query = array_merge( $prod, $spot_prod );
 $cont_prod_query = array_merge( $prod, $cont_prod );
 

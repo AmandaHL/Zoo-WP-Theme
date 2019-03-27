@@ -1,13 +1,36 @@
 <?php 
-update_option( 'siteurl', 'http://104.244.124.27/~zoofan5' );
-update_option( 'home', 'http://104.244.124.27/~zoofan5' );
-
-//enqueue page styles
 function wyrx_enqueue_styles() {
-    if ( is_page_template( array('media.php') )) 
+update_option( 'siteurl', 'https://zoofans.com' );
+update_option( 'home', 'https://zoofans.com' );
+    if( is_front_page() )
+    {
+        wp_enqueue_style( 'slideStyles', get_template_directory_uri(). '/css/slider.css');
+    }
+   if ( is_page_template( array('industry.php','industry-sub.php') )) 
    { 
-wp_enqueue_style( 'mediaStyles', get_template_directory_uri(). '/css/media.css');
-}
+	wp_enqueue_style( 'logoStyles', get_template_directory_uri(). '/css/ind_carousels.css');
+	wp_enqueue_style( 'lgBannerStyles', get_template_directory_uri(). '/css/lg_banner.css');
+	}
+	if ( is_page_template( array('media.php') )) 
+   { 
+	wp_enqueue_style( 'mediaStyles', get_template_directory_uri(). '/css/media.css');
+	}
+	if ( is_page_template( array('reps.php') )) 
+   { 
+	wp_enqueue_style( 'repStyles', get_template_directory_uri(). '/css/reps.css');
+	}
+	if (is_single() && get_post_type()==( 'product'))
+   { 
+	wp_enqueue_style( 'productStyles', get_template_directory_uri(). '/css/product.css');
+	}
+	if ( is_tax('product-cats') )
+   { 
+	wp_enqueue_style( 'productCatStyles', get_template_directory_uri(). '/css/product.css');
+	}
+	if ( is_page_template('spec-sheets.php') )
+   { 
+	wp_enqueue_style( 'specStyles', get_template_directory_uri(). '/css/specs.css');
+	}
 }
 add_action('wp_enqueue_scripts', 'wyrx_enqueue_styles');
 //enqueue scripts	
@@ -33,6 +56,12 @@ add_image_size( 'grid-thumb', 360, 230, true );//grid box images
 add_image_size( 'product-thumb', 360, 360, true );//grid box images
 
 }
+//add svg upload capability
+function cc_mime_types($mimes) {
+  $mimes['svg'] = 'image/svg+xml';
+  return $mimes;
+}
+add_filter('upload_mimes', 'cc_mime_types');
 //add tag support for pages
 function add_tag() {  
 // Add tag metabox to page
@@ -203,12 +232,19 @@ $zf_banner_box->add_field( array(
 	'type' => 'file'
 ) );
 $zf_banner_box->add_field( array(
+	'name' => esc_html__( 'Large Call-to-Action Text', 'cmb2' ),
+	'desc' => esc_html__( 'Customize call to action (used on the Landing page and Archive templates).', 'cmb2' ),
+	'id'   => $prefix . 'landing_title',
+	'type' => 'textarea_small'
+) );
+$zf_banner_box->add_field( array(
 	'name' => esc_html__( 'Banner Text', 'cmb2' ),
-	'desc' => esc_html__( 'Add paragraph text (Industry Sub-Pages Only).', 'cmb2' ),
+	'desc' => esc_html__( 'Add paragraph text (Industry Sub-Pages and Category Landing).', 'cmb2' ),
 	'id'   => $prefix . 'lg_banner_text',
 	'type' => 'textarea_small'
 ) );
 }
+
 //Home Page About Section
 add_action( 'cmb2_init', 'home_about_register_metabox' );
 function home_about_register_metabox() {
@@ -450,7 +486,56 @@ $prefix = 'zf_group_';
 
 }
 //Industry Child Page Metaboxes
+add_action( 'cmb2_admin_init', 'image_carousel_register_metabox' );
+function image_carousel_register_metabox() {
 
+$prefix = 'zf_';
+	/**
+	 * Repeatable Field Groups
+	 */
+	$zf_carousel_group = new_cmb2_box( array(
+		'id'           => $prefix . 'image_carousel',
+		'title'        => __( 'Image Carousel', 'cmb2' ),
+		'object_types' => array( 'page'),
+		'show_on'      => array( 'key' => 'page-template', 'value' => 'industry-sub.php' ),
+		'closed'     => true, // true to keep the metabox closed by default
+	) );
+
+	// $group_field_id is the field id string, so in this case: $prefix . 'demo'
+	$group_field_id = $zf_carousel_group->add_field( array(
+		'id'          => 'image_carousel',
+		'type'        => 'group',
+		'description' => __( 'Add installed fan image files as needed. They will display in the carousel.' ),
+		'options'     => array(
+			'group_title'   => __( 'Image {#}', 'cmb2' ), // {#} gets replaced by row number
+			'add_button'    => __( 'Add Image', 'cmb2' ),
+			'remove_button' => __( 'Remove Image', 'cmb2' ),
+			
+			'sortable'      => true, // beta
+			'closed'     => true, // true to have the groups closed by default
+		),
+	) );
+	/**
+	 * Group fields works the same, except ids only need
+	 * to be unique to the group. Prefix is not needed.
+	 *
+	 * The parent field's id needs to be passed as the first argument.
+	 */
+	 
+	$zf_carousel_group->add_group_field( $group_field_id, array(
+		'name' => __( 'Image', 'cmb2' ),
+		'description' => __( 'Upload Image', 'cmb2' ),
+		'id'   => 'ind_image',
+		'type' => 'file',
+	) );
+	$zf_carousel_group->add_group_field( $group_field_id, array(
+		'name' => __( 'Image URL', 'cmb2' ),
+		'description' => __( 'Link to the media file', 'cmb2' ),
+		'id'   => 'ind_image_url',
+		'type' => 'text',
+	) );
+
+}
 add_action( 'cmb2_admin_init', 'logo_carousel_register_metabox' );
 function logo_carousel_register_metabox() {
 
@@ -719,12 +804,12 @@ $prefix = 'zf_';
 		'id'           => $prefix . 'product_images',
 		'title'        => __( 'Product Images', 'cmb2' ),
 		'object_types'  => array('product'),
-		'sortable' 	=> true,
 		'closed'     => true, // true to keep the metabox closed by default
+		
 	) );
 
 			// $group_field_id is the field id string, so in this case: $prefix . 'demo'
-			$group_field_id = $zf_prod_image_group->add_field( array(
+			$img_prod_group = $zf_prod_image_group->add_field( array(
 				'id'          => 'prod_images',
 				'type'        => 'group',
 				'description' => __( 'Add product image files as needed.' ),
@@ -732,17 +817,16 @@ $prefix = 'zf_';
 					'group_title'   => __( 'Product Image {#}', 'cmb2' ), // {#} gets replaced by row number
 					'add_button'    => __( 'Add Product Image', 'cmb2' ),
 					'remove_button' => __( 'Remove Product Image', 'cmb2' ),
-			
-					'sortable'      => true, // beta
+					'sortable'  => true, // beta,			
 					'closed'     => true, // true to have the groups closed by default
 				),
 			) );
 	 
-			$zf_prod_image_group->add_group_field( $group_field_id, array(
+			$zf_prod_image_group->add_group_field( $img_prod_group, array(
 				'name' => __( 'Product Image', 'cmb2' ),
 				'description' => __( 'Add Product Image', 'cmb2' ),
 				'id'   => 'prod_image',
-				'type' => 'file',
+				'type' => 'file',		
 			) );
 	$zf_prod_subtitle = new_cmb2_box( array(
 	'id'    => $prefix . 'prod_subtitle',
@@ -769,44 +853,57 @@ $prefix = 'zf_';
 		'type'    => 'wysiwyg',
 		) );
 		
-		$zf_prod_features->add_field( array(
-		'name' => esc_html__( 'Link to Specs PDF', 'cmb2' ),	
-		'id'   => $prefix . 'prod_spec_link',
-		'type' => 'text_url',
+		$zf_prod_features->add_field( array(	
+		'name' => esc_html__( 'ETL Logo', 'cmb2' ),
+		'id'   => $prefix . 'prod_etl',
+		'type'    => 'file',
 		) );
 		
 		
-	$zf_prod_inline_links = new_cmb2_box( array(
-	'id'    => $prefix . 'prod_inline_links',
-	'title'  => __( 'Inline Links', 'cmb2' ),
+		
+	$zf_prod_downloads = new_cmb2_box( array(
+	'id'    => $prefix . 'prod_download_links',
+	'title'  => __( 'Download Links', 'cmb2' ),
 	'object_types'  => array( 'product'), // Post type
 	'closed'     => true, // true to keep the metabox closed by default
 ) );	
-		$zf_prod_inline_links->add_field( array(
+		$zf_prod_downloads->add_field( array(
 		'name' => esc_html__( 'Submittal Link', 'cmb2' ),	
 		'id'   => $prefix . 'prod_submittal',
 		'type' => 'text_url',
 		) );
 		
-		$zf_prod_inline_links->add_field( array(
-		'name' => esc_html__( 'Test Results Link', 'cmb2' ),	
-		'id'   => $prefix . 'prod_test_results',
+		$zf_prod_downloads->add_field( array(
+		'name' => esc_html__( 'Link to Specs PDF', 'cmb2' ),	
+		'id'   => $prefix . 'prod_spec_link',
 		'type' => 'text_url',
 		) );
 		
-		$zf_prod_inline_links->add_field( array(
+		$zf_prod_downloads->add_field( array(
 		'name' => esc_html__( 'Installation Guide Link', 'cmb2' ),	
 		'id'   => $prefix . 'prod_install_gd',
 		'type' => 'text_url',
 		) );
 		
-		$zf_prod_inline_links->add_field( array(
+		$zf_prod_downloads->add_field( array(
+		'name' => esc_html__( 'Installation Guide Link (Additional for Controllers)', 'cmb2' ),	
+		'id'   => $prefix . 'prod_install_gd_two',
+		'type' => 'text_url',
+		) );
+		
+		$zf_prod_downloads->add_field( array(
+		'name' => esc_html__( 'Performance Data Link', 'cmb2' ),	
+		'id'   => $prefix . 'prod_perf_data',
+		'type' => 'text_url',
+		) );
+		
+		$zf_prod_downloads->add_field( array(
 		'name' => esc_html__( 'Operating Manual Link', 'cmb2' ),	
 		'id'   => $prefix . 'prod_op_manual',
 		'type' => 'text_url',
 		) );
-	
 		
+			
 		
 	$zf_prod_details = new_cmb2_box( array(
 	'id'    => $prefix . 'prod_details',
@@ -815,14 +912,47 @@ $prefix = 'zf_';
 	'closed'     => true, // true to keep the metabox closed by default
 ) );	
 		$zf_prod_details->add_field( array(
-		'name' => esc_html__( 'Uses', 'cmb2' ),	
-		'id'   => $prefix . 'prod_uses',
+		'name' => esc_html__( 'Specifications', 'cmb2' ),	
+		'id'   => $prefix . 'prod_specs',
 		'type' => 'wysiwyg',
 		) );	
 		
 		$zf_prod_details->add_field( array(
-		'name' => esc_html__( 'Efficiency & Performance', 'cmb2' ),	
-		'id'   => $prefix . 'prod_eff_perf',
+		'name' => esc_html__( 'Sound Level Calculations', 'cmb2' ),	
+		'id'   => $prefix . 'prod_sound_level',
+		'type' => 'wysiwyg',
+		) );
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Ducting', 'cmb2' ),	
+		'id'   => $prefix . 'prod_ducting',
+		'type' => 'wysiwyg',
+		) );
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Diffuser', 'cmb2' ),	
+		'id'   => $prefix . 'prod_diffuser',
+		'type' => 'wysiwyg',
+		) );
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Sound Characteristics', 'cmb2' ),	
+		'id'   => $prefix . 'prod_sound_char',
+		'type' => 'wysiwyg',
+		) );
+		
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Certifications', 'cmb2' ),	
+		'id'   => $prefix . 'prod_certs',
+		'type' => 'wysiwyg',
+		) );
+		
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Motor', 'cmb2' ),	
+		'id'   => $prefix . 'prod_motor',
+		'type' => 'wysiwyg',
+		) );
+		
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Housing', 'cmb2' ),	
+		'id'   => $prefix . 'prod_housing',
 		'type' => 'wysiwyg',
 		) );
 		
@@ -831,6 +961,105 @@ $prefix = 'zf_';
 		'id'   => $prefix . 'prod_coverage',
 		'type' => 'wysiwyg',
 		) );
+		
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Options', 'cmb2' ),	
+		'id'   => $prefix . 'prod_options',
+		'type' => 'wysiwyg',
+		) );
+		
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Installation Hardware', 'cmb2' ),	
+		'id'   => $prefix . 'prod_hardware',
+		'type' => 'wysiwyg',
+		) );
+		
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Dimensions', 'cmb2' ),	
+		'id'   => $prefix . 'prod_dimensions',
+		'type' => 'wysiwyg',
+		) );
+		
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Fan Speed vs Usage', 'cmb2' ),	
+		'id'   => $prefix . 'prod_speed_usage',
+		'type' => 'wysiwyg',
+		) );
+		
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Warranty', 'cmb2' ),	
+		'id'   => $prefix . 'prod_warranty',
+		'type' => 'wysiwyg',
+		) );
+		
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Controller', 'cmb2' ),	
+		'id'   => $prefix . 'prod_controller',
+		'type' => 'wysiwyg',
+		) );
+		
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Optional Manual Control', 'cmb2' ),	
+		'id'   => $prefix . 'prod_manual_control',
+		'type' => 'wysiwyg',
+		) );
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Electric Table', 'cmb2' ),	
+		'id'   => $prefix . 'prod_elec_table',
+		'type' => 'wysiwyg',
+		) );
+		
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Multi-Zone Control Cabinet', 'cmb2' ),	
+		'id'   => $prefix . 'prod_mz_cont_cabinet',
+		'type' => 'wysiwyg',
+		) );
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'User Interface', 'cmb2' ),	
+		'id'   => $prefix . 'prod_user_interface',
+		'type' => 'wysiwyg',
+		) );
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Autotransformer', 'cmb2' ),	
+		'id'   => $prefix . 'prod_autotransformer',
+		'type' => 'wysiwyg',
+		) );
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Automatic Mode', 'cmb2' ),	
+		'id'   => $prefix . 'prod_auto_mode',
+		'type' => 'wysiwyg',
+		) );
+		$zf_prod_details->add_field( array(
+		'name' => esc_html__( 'Wiring Example', 'cmb2' ),	
+		'id'   => $prefix . 'prod_wiring',
+		'type' => 'wysiwyg',
+		) );
+}
+//Similar Products on Product Single template
+add_action( 'cmb2_init', 'sim_prod_register_metabox' );
+function sim_prod_register_metabox() {
+$prefix = 'zf_';
+
+$cmb_sim_prod = new_cmb2_box( array(
+	'id'           => $prefix . 'similar_products',
+	'title'        => __( 'Similar Products' ),
+	'object_types' => array( 'product', ), // Post type
+) );
+
+// Add new field
+$cmb_sim_prod->add_field( array(
+	'name'        => __( 'Products' ),
+	'id'          => $prefix . 'sim_product',
+	'type'        => 'post_search_text', // This field type
+	'description' => __( 'Enter a comma-separated list of post IDs, or use the search icon to select posts.' ),
+	// post type also as array
+	'post_type'   => 'product',
+	// Default is 'checkbox', used in the modal view to select the post type
+	'select_type' => 'checkbox',
+	
+	
+) );
+
 }
 
 
@@ -852,8 +1081,7 @@ class Thumbnail_Walker extends Walker_Nav_Menu
 * @param  array $args    Additional strings.
 * @return void
 */
-function start_el(&$output, $item, $depth=0, $args)
-{
+function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
 $classes     = empty ( $item->classes ) ? array () : (array) $item->classes;
 
 $class_names = join(
@@ -884,7 +1112,7 @@ $attributes  = '';
 // you may change this
 $thumbnail = '';
 if( $id = has_post_thumbnail( $item->object_id ) ) {	
-    $thumbnail = get_the_post_thumbnail( $item->object_id,'post-thumbnails' ); 
+    $thumbnail = get_the_post_thumbnail( $item->object_id ); 
 }
 elseif ( $id = get_wp_term_image($item->object_id)) {
 	$tax_image = get_wp_term_image($item->object_id);
@@ -907,7 +1135,7 @@ $item_output = $args->before
     . $args->after
 	.'<div class="nav-image"><a '
 	. $attributes
-	.'><div class="image-box">'
+	.'><div class="image-box tax-image">'
    . $thumbnail
     . '</div></a><div class="nav-img-text"><p>'
 	. esc_html( $zfdesc )

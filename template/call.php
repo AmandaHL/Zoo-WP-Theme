@@ -1,9 +1,23 @@
 <?php
 //Call to action
-
-echo '<div class="blue-frame">
-	<p>Call Zoo Fans Today!<br><span>855&#8209;ZOO&#8209;FANS (855&#8209;966&#8209;3267)</span>		
-	</p>
-	</div>
-	<p class="contact-btn"><a class="sb-btn-3" href="/~zoofan5/contact-us/">Contact Us Online</a></p>';
 ?>
+<section class="call-to-action">
+	
+	<div class="two-col">
+	<h7>Call or Click today!</h7>
+		<div class="call-to first">
+			<div>
+				
+				<p><img src="<?php echo get_template_directory_uri();?>/images/icon-phone.svg" alt="Call ZOO Fans"/>Call ZOO Fans</p>
+			</div>
+			<p class="call-contact">855-ZOO-FANS (855-966-3267)</p>
+		</div>
+		<div class="call-to second">
+			<div><a href="/~zoofan5/contact-us/">
+				
+				<img src="<?php echo get_template_directory_uri();?>/images/icon-email.svg" alt="Email ZOO Fans"/><span>Email Our Engineers</span></a>
+			</div>
+			<p class="call-contact"><a href="mailto:engineering@zoofans.com">engineering@zoofans.com</a></p>
+		</div>
+	</div><!--.two-col-->
+</section>

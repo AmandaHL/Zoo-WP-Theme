@@ -9,7 +9,8 @@ get_template_part('template/page-banner');
 ?>
 <section>
 <div class="has-sidebar">
-<div class="page-content">
+<div class="page-content" id="ind-<?php the_ID();?>">
+<?php get_template_part('template/ind-img-carousel');?>
 <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 		<?php the_content(); ?>
 		<?php endwhile; endif; ?>
@@ -18,24 +19,19 @@ get_template_part('template/page-banner');
 
 <section class="ind-shared">
 
-<div class="wassup">
-<div class="call">
-<?php //get the standard Call to Action
-get_template_part('template/call');
-?>
-</div>
+<div class="which-type">
+
 <?php 
 $metafield_id = get_the_ID();
 $ind_parent = $post->post_parent;
 $ind_parent_title = get_the_title($ind_parent);
-$ind_plural = get_post_meta($metafield_id, 'zf_ind_plural', true);
 $ind_wassup = get_post_meta($metafield_id, 'zf_ind_wassup', true);
 $open = get_post_meta($metafield_id, 'zf_ind_fan_open_check',  true);
 $drop = get_post_meta($metafield_id, 'zf_ind_fan_drop_check',  true);
 $spot = get_post_meta($metafield_id, 'zf_ind_fan_spot_check',  true);
 ?>
 
-	<p>To see ZOO fans for <?php echo $ind_plural;?>, click on the ceiling type:</p>
+	<h7>Which type of fan do I need?</h7>
 	<ul class="related-products">
 	<?php 
 
@@ -58,7 +54,12 @@ $spot = get_post_meta($metafield_id, 'zf_ind_fan_spot_check',  true);
 	?>
 	</ul>
 	
-</div><!--.wassup-->
+</div><!--.which-type-->
+<div class="call">
+<?php //get the standard Call to Action
+get_template_part('template/call');
+?>
+</div>
 <?php get_template_part('template/logo-carousel');?>
 </section><!--.ind-shared-->
 <div class="sharing"><?php echo do_shortcode('[Sassy_Social_Share title="SHARE THIS PAGE"]'); ?></div><!--.sharing-->

@@ -14,18 +14,24 @@
 <link rel="alternate" type="application/rss+xml" title="<?php bloginfo('name'); ?> RSS Feed" href="<?php bloginfo('rss2_url');?>" />
 
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
-<title>| Zoo Fans, Inc.</title>
+<title>ZOO Fans</title>
 <link rel="shortcut icon" href="<?php echo get_stylesheet_directory_uri(); ?>/favicon.ico" />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lateef%7COpen+Sans:300,400,600" />
-<link href="https://file.myfontastic.com/n6vo44Re5QaWo8oCKShBs7/icons.css" rel="stylesheet"><!--Socicon social icons-->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lateef%7COpen+Sans:300,400,600,700" />
 <link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>" type="text/css" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-72798845-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-72798845-1');
+</script>
+<script type="text/javascript" src="https://secure.leadforensics.com/js/85652.js" ></script> 
+
 
 <?php wp_head();?>
 </head>
 <body id="top-anchor">
-
-
-
+<noscript><img alt="" src="https://secure.leadforensics.com/85652.png" style="display:none;" /></noscript>​
 <header>
 <div class="top">
 <div class="logobox">

@@ -6,8 +6,8 @@ $prod_images = get_post_meta(get_the_ID(), 'prod_images', true);
 
 <div id="prod-1" class="cycle-slideshow"
         data-cycle-slides="> div"
-       	data-cycle-timeout="0"
-        data-cycle-fx="tileBind"
+       	data-cycle-timeout=0
+        data-cycle-fx=tileBind
         >
 		 <?php // Checks and displays the retrieved values
     foreach ( (array) $prod_images as $key => $prod_image ) {
@@ -29,12 +29,12 @@ $prod_images = get_post_meta(get_the_ID(), 'prod_images', true);
 
 <div id="prod-2" class="cycle-slideshow"
         data-cycle-slides="> div"
-        data-cycle-timeout="0"
-        data-cycle-fx="carousel"
-        data-cycle-carousel-visible="3"
-       	data-cycle-carousel-fluid="false"
-        data-cycle-carousel-vertical="true"
-        data-allow-wrap="false"      
+        data-cycle-timeout=0
+        data-cycle-fx=carousel
+        data-cycle-carousel-visible=5
+       	data-cycle-carousel-fluid=false
+        data-cycle-carousel-vertical=true
+        data-allow-wrap=false   
         >
        
 	<?php // Checks and displays the retrieved values

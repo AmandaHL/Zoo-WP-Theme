@@ -1,19 +1,5 @@
 <?php //grid styles
 ?>
-
-<?php if (is_page('products')) { ?>
- <a href="<?php the_permalink();?>"><div id="<?php the_ID(); ?>" class="grid-box">
-<div class="grid-img">
-<?php if ( has_post_thumbnail() ) : ?>
-        <?php the_post_thumbnail('grid-thumb'); ?>
-<?php endif; ?>
-</div>
-<div class="grid-text" onclick="">
-           	<h5 class="grid-title"><?php the_title(); ?></h5>
-</div>
-       </div><!--.grid-box--></a>
-<?php } else { ?>
-
 <!--Default Grid-->
 <div class="grid">
 <?php //get the child pages
@@ -21,8 +7,8 @@ $args = array(
     'post_type'      => 'page',
     'posts_per_page' => -1,
     'post_parent'    => $post->ID,
-    'order'          => 'ASC',
-    'orderby'        => 'menu_order'
+   'order'          => 'ASC',
+    'order_by'        => 'menu_order'
  );
 
 
@@ -48,4 +34,3 @@ if ( $parent->have_posts() ) : ?>
 <?php endif; wp_reset_query();
 ?>
 </div><!--.grid-->
-<?php } ?>

@@ -143,7 +143,7 @@ $( window ).resize( function () {
 // Resize to fix all iframes on page load.
 }).resize();
 
-//Image Gallery?
+//Product Images
 $(document).ready(function($){
 var slideshows = $('.cycle-slideshow').on('scroll-next scroll-prev', function(e, opts) {
     // advance the other slideshow
@@ -151,6 +151,19 @@ var slideshows = $('.cycle-slideshow').on('scroll-next scroll-prev', function(e,
 });
 $('#prod-2 div').click(function(){
     var index = $('#prod-2').data('cycle.API').getSlideIndex(this);
+    slideshows.cycle('goto', index);
+});
+
+});
+
+//Gallery Image Carousel
+$(document).ready(function($){
+var slideshows = $('#cycle-3').on('scroll-next scroll-prev', function(e, opts) {
+    // advance the other slideshow
+    slideshows.not(this).cycle('goto', opts.currSlide);
+});
+$('#cycle-4 img').click(function(){
+    var index = $('#cycle-4').data('cycle.API').getSlideIndex(this);
     slideshows.cycle('goto', index);
 });
 

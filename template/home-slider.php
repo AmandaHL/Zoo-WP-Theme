@@ -48,9 +48,8 @@ echo '<div id="hero" class="cycle-slideshow"
 	 . $header
 	 .'</div><div class="slide-text">'
 	 . $text
-	 .'</div><div class="slide-btn"><a href="'
-	 . $link 
-	 .'">Learn More</a></div></div><!--.slide-text-wrap--><div class="cycle-pager"></div></div><!--home-slide-->';
+	 .'</div>'
+	 . '</div><!--.slide-text-wrap--><div class="cycle-pager"></div></div><!--home-slide-->';
 }
 echo '</div><!--.cycle-slideshow-->';
 

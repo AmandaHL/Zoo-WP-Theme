@@ -19,9 +19,9 @@ if(is_page('open-ceiling')){
 } elseif (is_page('drop-ceiling')){
 	$args = array('post_type' => 'product','category__in' => 6, 'order' => 'ASC' );
 } elseif (is_page('spot-cooling')){
-	$args = array('post_type' => 'product','category__in' => 7, 'order' => 'ASC' );
+	$args = array('post_type' => 'product','category__in' => 2, 'order' => 'ASC' );
 } elseif (is_page('controllers')) {
-	$args = array('post_type' => 'product','category__in' => 8, 'order' => 'ASC' );
+	$args = array('post_type' => 'product','category__in' => 10, 'order' => 'ASC' );
 }
 
 $products = new WP_Query( $args );

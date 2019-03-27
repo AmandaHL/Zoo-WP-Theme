@@ -11,7 +11,6 @@ get_header(); ?>
 	echo '</div></div>';
 ?>
 <section>
-
             <div class="content">
 	<div class="searchpage">
     <h2><?php _e( 'You searched for: ', 'zoofans' ); ?><span><?php the_search_query(); ?></span></h2>
@@ -88,7 +87,14 @@ get_header(); ?>
  
 <?php endif; ?>
 </div><!-- .searchpage -->
+<div class="call">
+<?php //get the standard Call to Action
+get_template_part('template/call');
+?>
+</div><!--.call-->
+
 <div class="sharing"><?php echo do_shortcode('[Sassy_Social_Share title="SHARE THIS PAGE"]'); ?></div><!--.sharing-->
+<div class="back-to-top"><a href="#top-anchor">Back to Top</a></div>
 </div><!--.content-->
 </section>
 <?php get_footer();?>

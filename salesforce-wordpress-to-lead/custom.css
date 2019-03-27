@@ -1,0 +1,133 @@
+/*Salesforce Form Styles*/
+.salesforce_w2l_lead form.w2llead {
+    text-align: left;
+    clear: both;
+}
+
+.salesforce_w2l_lead #salesforce {
+    margin: .25em 0 0 0;
+}
+
+.salesforce_w2l_lead #salesforce a {
+    color: #999;
+}
+
+.salesforce_w2l_lead .w2llabel, .w2linput {
+    display: block;
+    float: left;
+    box-sizing: border-box;  
+}
+.w2linput {
+	border: solid thin #DDD;
+
+}
+.salesforce_w2l_lead .w2llabel.error {
+    color: #f00;
+}
+
+.salesforce_w2l_lead .w2llabel {
+	color: rgb(0,0,0);
+	font-size: 110%;
+	font-weight: 600;
+    clear: left;
+    margin: 1em 0 .25em 0;
+   
+}
+
+.salesforce_w2l_lead .w2linput.text {
+line-height: 22px;
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    margin: .25em 0;   
+}
+
+.salesforce_w2l_lead .w2linput.textarea {
+    width: 100%;
+     max-width: 600px;
+    height: 6em;
+    margin: .25em 0 .75em 0;
+}
+
+.salesforce_w2l_lead .w2lsubmit {
+    float: none;
+    clear: both;
+    padding: .5em 0;
+}
+
+.salesforce_w2l_lead .w2linput.submit {
+    clear: both;
+    float: none;
+	background: rgb(114,190,68);/*--green--*/
+	color: rgb(255,255,255);
+	font-size: 18px;
+	font-weight: 600;
+	line-height: 30px;
+	margin: 0 0 .5em 0;	
+	padding: 0 .5em .3em .5em;
+	height: 30px;
+	
+}
+
+.salesforce_w2l_lead .w2linput.textarea, .salesforce_w2l_lead .w2linput.text {
+    font-size: inherit;
+      padding: .3em;
+}
+
+.salesforce_w2l_lead .top-aligned .w2linput {
+    clear: left;
+}
+
+.salesforce_w2l_lead .top-aligned .w2llabel {
+    width: 100%;
+}
+
+.salesforce_w2l_lead .left-aligned .w2llabel {
+    width: 25%;
+}
+
+.salesforce_w2l_lead .left-aligned .w2linput.text, .salesforce_w2l_lead .left-aligned .w2linput.textarea {
+    width: 75%;
+}
+
+.salesforce_w2l_lead .sidebar.left-aligned .w2llabel, .salesforce_w2l_lead .sidebar.left-aligned .w2linput {
+	width: 50%;
+}
+
+
+.salesforce_w2l_lead .top-aligned .w2llabel.checkbox, .salesforce_w2l_lead .left-aligned .w2llabel.checkbox {
+    width: auto;
+}
+.sf_field_fan_type .w2llabel,
+.sf_field_about_space .w2llabel,
+.sf_field_contact_head .w2llabel {
+	color: rgb(114,190,68);
+	font-size: 140%;
+}
+.sf_field_fan_type span.required,
+.sf_field_about_space span.required,
+.sf_field_contact_head span.required {
+	font-size: 60%;
+}
+.select {
+	-webkit-appearance: none; 
+	-webkit-border-radius: 0;
+  	-moz-border-radius: 0;
+   	border-radius: 0;
+	font-size: 100%;
+	line-height: 22px;
+	margin: .5em 0 0 0;
+	width: 100%;
+	max-width: 300px;
+}
+.w2linput.select {
+ padding: .3em;
+}
+select:focus,
+input[type=text]:focus, textarea:focus {
+	outline: none;
+	border: 1px solid rgba(0, 130, 201, 1);
+}
+.w2linput.checkbox {
+	height: 15px;
+}

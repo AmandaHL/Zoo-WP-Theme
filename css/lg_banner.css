@@ -8,7 +8,6 @@ width: 100%;
 overflow: hidden;
 max-height: 74vh;
 }
-
 .lg-banner-image {
 position: relative;
 top: 0;
@@ -21,61 +20,31 @@ width: 100%;
 .lg-banner-text-wrap {
 background: rgb(255,255,255);
 background: rgba(255,255,255,.8);
-margin: 0 2%;
+margin: 0 5%;
 padding: .5em 0 0 0;
 position: absolute;
 bottom: 4%;
-width: 96%;
+
 height: auto;
 z-index: 1000;
 }
 .lg-banner-header{
-color: rgb(10,119,184);
-font-size: 110%;
+color: rgb(0,110,183);
+font-size: 140%;
 margin: 0 auto;
+padding: .2em .5em;
 padding-bottom: .5em;
-width: 96%;
+width: 100%;
 }
-.lg-banner-text p{
-color: #333;
-font-size: 85%;
-line-height: 130%;
-padding: 0 0 .2em 0;
-margin: 0 auto;
-width: 96%;
-}
-
-/*@media only screen and (min-width: 40em){
-.lg-banner-text-wrap {
-margin: 0 4%;
-padding: 1em 0;
+@media only screen and (min-width: 40em){
+/*.lg-banner-text-wrap {
+margin: 0 0 0 8%;
+padding: 1.5em auto 1em 0;
 bottom: 8%;
-width: 92%;
-}
-.lg-banner-header {
-width: 94%;
-}
-.lg-banner-text p{
-padding: 0 0 .5em 0;
-width: 94%;
-}
+width: auto;
 }*/
-@media only screen and (min-width: 46em){
-.lg-banner-text-wrap {
-margin: 0 52% 0 8%;
-padding: 1.5em 0 1em 0;
-bottom: 8%;
-width: 40%;
-}
 .lg-banner-header {
-font-size: 150%;
-width: 90%;
-}
-.lg-banner-text p{
-font-size: 100%;
-line-height: 150%;
-margin: 0 10% 0 auto;
-padding: 0 0 .5em 0;
-width: 85%;
+font-size: 180%;
+width: auto;
 }
 }

@@ -27,6 +27,13 @@ endwhile; endif; wp_reset_query();
 ?>
 </div><!--content-->
 </section>
+<section class="landing-title">
+<?php
+$post_id = get_the_ID();
+$landing_title = get_post_meta($contentId, 'zf_landing_title', true);
+echo '<h1>'. $landing_title 
+.'</h1>';?>
+</section>
 <section class="product-grid">
 <div class="related-prod">
 <div class="rel-boxes">

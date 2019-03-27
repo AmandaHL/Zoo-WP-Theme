@@ -10,11 +10,11 @@
 
 </nav>
 <div class="social-follow">
-<a href="https://www.facebook.com/ZOOFans.fan" target="_blank"><i class="socicon-facebook"></i></a><!--FB-->
-<a href="https://twitter.com/ZOOFans"><i class="socicon-twitter"></i></a><!--Twitter-->
-<a href="https://www.linkedin.com/company/zoo-fans"><i class="socicon-linkedin"></i></a><!--LinkedIn-->
-<a href="https://www.youtube.com/user/ZOOFans"><i class="socicon-youtube"></i></a><!--Youtube-->
-<a href="https://plus.google.com/+Zoofans/about"><i class="socicon-googleplus"></i></a><!--Google+-->
+<a href="https://www.facebook.com/ZOOFans.fan" target="_blank"><span class="icon-facebook"><img src="<?php echo get_template_directory_uri();?>/images/social-icons/401-facebook.svg" alt="Facebook"></span></a><!--FB-->
+<a href="https://twitter.com/ZOOFans"><span class="icon-twitter"><img src="<?php echo get_template_directory_uri();?>/images/social-icons/407-twitter.svg" alt="Twitter"></span></a><!--Twitter-->
+<a href="https://www.linkedin.com/company/zoo-fans"><span class="icon-linkedin2"><img src="<?php echo get_template_directory_uri();?>/images/social-icons/459-linkedin2.svg" alt="LinkedIn"></span></a><!--LinkedIn-->
+<a href="https://www.youtube.com/user/ZOOFans"><span class="icon-youtube"><img src="<?php echo get_template_directory_uri();?>/images/social-icons/414-youtube.svg" alt="YouTube"></span></a><!--Youtube-->
+<a href="https://plus.google.com/+Zoofans/about"><span class="icon-google-plus"><img src="<?php echo get_template_directory_uri();?>/images/social-icons/396-google-plus.svg" alt="Google+"></span></a><!--Google+-->
 </div><!--social follow-->
 </div>	
 </section><!--top-footer-->
