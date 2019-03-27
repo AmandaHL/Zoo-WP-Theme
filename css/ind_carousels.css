@@ -1,0 +1,142 @@
+/*------------------------
+Industry Shared Content
+------------------------*/
+.ind-shared {
+	margin-top: 1.5em;
+	width: 100%;
+}
+.ind-shared > div {
+	display: block;
+}
+/*-------------------
+Image Carousel - Industry
+--------------------*/
+.ind-img-carousel {
+	margin: 1.5em 0 0 0;
+	padding-top: 0;
+	text-align: left;
+}
+.carousel {
+	margin: .5em 0;
+	padding: 1em 0;
+	width: 100%;		
+}
+.carousel-wrap > div {
+	display: inline-block;
+	vertical-align: middle;
+}
+.carousel-wrap .cycle-slideshow {
+	margin: 0;
+	padding: 0;
+	width: 88.2%;	
+}
+.ind-img {
+	display: inline-block;
+	margin: 0;
+	padding: 0 3px;
+	text-align: center; 
+	vertical-align: middle;
+}
+.carousel img {
+	border: 2px solid #cfcfcf;
+	margin: 0;
+	padding: 0;
+	width: 98%;
+	height: auto;
+}
+.carousel .control {color: #777;font-family: 'Lateef', serif; font-size: 300%;font-weight: bold; }
+.carousel .scroll-prev,
+.carousel .scroll-next {
+	
+	cursor: pointer;
+	margin: 0;
+	padding: .3em 0 0 0;
+	text-align: center;
+	width: 4.5%;
+}
+/*-------------------
+Logo Carousel - Industry
+--------------------*/
+.logos-header {
+color: rgb(0,110,183);
+font-size: 140%;
+line-height: 120%;
+margin: 0 auto;
+padding: .5em 0;
+text-align: center;
+}
+.logos-small {
+	color: rgb(104,104,104);
+	display: block;
+	font-size: 70%;
+	margin-top: 0;
+	}
+.logo-carousel {
+	margin: 0 auto;
+	padding-top: 0;
+	text-align: center;
+}
+.carousel,
+.logos {
+	margin: .5em 0;
+	padding: 1em 0;
+	width: 100%;		
+}
+.logo-wrap > div {
+	display: inline-block;
+	vertical-align: middle;
+}
+.logo-wrap .cycle-slideshow {
+	margin: 0;
+	padding: 0 1%;
+	width: 80%;	
+}
+.ind-logo {
+	display: inline-block;
+	margin: 0;
+	text-align: center; 
+	vertical-align: middle;	
+}
+.logos img {
+	margin: 0 auto;
+	padding: 0;
+	width: 72%;
+	height: auto;
+}
+.logos .control {color: #777;font-family: 'Lateef', serif; font-size: 300%;font-weight: bold; }
+.logos .scroll-prev,
+.logos .scroll-next {
+	cursor: pointer;
+	margin: 0;
+	padding: .3em 0 0 0;
+	text-align: center;
+	width: 7.0%;
+}
+.scroll-prev:hover .control, .scroll-next:hover .control { color: rgb(0,110,183); }
+@media only screen and (min-width:30em){
+.logos img {
+	width: 150px !important;
+}
+}@media only screen and (min-width:50em){
+.ind-shared {
+	margin-top: 2em;
+}
+.ind-shared > div {
+	width: 100%;
+}
+.ind-img-carousel {
+	margin: 2em 0 0 0;
+}
+.carousel .control{
+font-size: 300%; 
+}
+.logos-header {
+font-size: 160%;
+}
+.logo-carousel {
+	margin: 1em 0 0 0;
+}
+.logos .control {
+font-size: 300%; 
+}
+}
