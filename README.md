@@ -11,4 +11,4 @@ This project was completed for a manufacturing company to provide information ab
 * Custom Metaboxes using CMB2 (https://cmb2.io) // (https://github.com/CMB2/)
 * Custom Post Types
 
-# Plugins Used Alongside the Theme
+
